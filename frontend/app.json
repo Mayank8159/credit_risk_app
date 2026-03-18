@@ -8,7 +8,7 @@
     "icon": "./assets/applogo1.png",
     "splash": {
       "image": "./assets/applogo1.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#4A90E2"
     },
     "assetBundlePatterns": [
@@ -21,7 +21,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/applogo1.png",
         "backgroundColor": "#4A90E2"
-      }
+      },
+      "package": "com.mayank8159.creditriskapp"
     },
     "web": {
       "bundler": "metro",
@@ -29,6 +30,11 @@
     },
     "plugins": [
       "expo-asset"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "43912bed-0040-4a44-a50c-a43e57585a79"
+      }
+    }
   }
 }
