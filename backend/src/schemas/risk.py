@@ -38,7 +38,7 @@ class RiskFactor(BaseModel):
 
 
 class PortfolioRiskSnapshot(BaseModel):
-    total_assets_usd: int
+    total_assets_inr: int
     npc_rate_percent: float
     label: str
 

@@ -3,13 +3,13 @@ import { LinearGradient } from "expo-linear-gradient";
 import {
   ActivityIndicator,
   Pressable,
-  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import InputField from "../components/InputField";
 import { useAppTheme } from "../theme/ThemeContext";
@@ -42,7 +42,7 @@ export default function LoginScreen({
 
   return (
     <SafeAreaView style={styles.root}>
-      <StatusBar barStyle="light-content" />
+      <StatusBar barStyle={theme.mode === "dark" ? "light-content" : "dark-content"} />
       <LinearGradient
         colors={theme.gradients.page}
         start={{ x: 0, y: 0 }}

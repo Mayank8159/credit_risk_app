@@ -1,5 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useAppTheme } from "../theme/ThemeContext";
 
@@ -8,7 +9,7 @@ export default function SettingsScreen({ onLogout }) {
   const styles = createStyles(theme);
 
   return (
-    <View style={styles.root}>
+    <SafeAreaView edges={["top"]} style={styles.root}>
       <LinearGradient colors={theme.gradients.page} style={styles.gradientBackdrop} />
       <View style={styles.content}>
         <Text style={styles.caption}>Settings</Text>
@@ -32,7 +33,7 @@ export default function SettingsScreen({ onLogout }) {
           </Pressable>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -47,7 +48,8 @@ function createStyles(theme) {
     },
     content: {
       paddingHorizontal: 20,
-      paddingTop: 16,
+      paddingTop: 20,
+      paddingBottom: 120,
       gap: 12,
     },
     caption: {

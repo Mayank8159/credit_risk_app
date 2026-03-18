@@ -3,13 +3,13 @@ import { LinearGradient } from "expo-linear-gradient";
 import {
   Animated,
   Pressable,
-  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import RiskResultCard from "../components/RiskResultCard";
 import { USER_SCENARIO_PAYLOADS } from "../constants/riskPayloads";
@@ -149,7 +149,7 @@ export default function DemoDashboardScreen({
 
   return (
     <SafeAreaView style={styles.root}>
-      <StatusBar barStyle="light-content" />
+      <StatusBar barStyle={theme.mode === "dark" ? "light-content" : "dark-content"} />
       <LinearGradient
         colors={theme.gradients.page}
         start={{ x: 0, y: 0 }}
@@ -287,7 +287,7 @@ function createStyles(theme) {
     borderRadius: 240,
     top: -180,
     left: -180,
-    backgroundColor: theme.mode === "dark" ? "rgba(64, 136, 220, 0.22)" : "rgba(71, 119, 188, 0.2)",
+    backgroundColor: theme.mode === "dark" ? "rgba(64, 136, 220, 0.22)" : "rgba(30, 111, 217, 0.08)",
   },
   backgroundAuraSmall: {
     position: "absolute",
@@ -296,12 +296,12 @@ function createStyles(theme) {
     borderRadius: 150,
     bottom: -100,
     right: -90,
-    backgroundColor: theme.mode === "dark" ? "rgba(114, 81, 229, 0.2)" : "rgba(61, 132, 219, 0.14)",
+    backgroundColor: theme.mode === "dark" ? "rgba(114, 81, 229, 0.2)" : "rgba(11, 165, 217, 0.06)",
   },
   content: {
     paddingHorizontal: 20,
     paddingTop: 16,
-    paddingBottom: 28,
+    paddingBottom: 120,
   },
   topBar: {
     flexDirection: "row",

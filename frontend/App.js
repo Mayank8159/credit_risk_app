@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { View } from "react-native";
 
 import AppTabs from "./src/navigation/AppTabs";
 import LoginScreen from "./src/screens/LoginScreen";
@@ -12,7 +14,7 @@ function RootApp() {
   const [loadingUsers, setLoadingUsers] = useState(true);
   const [authLoading, setAuthLoading] = useState(false);
   const [error, setError] = useState("");
-  const { theme } = useAppTheme();
+  const { isThemeReady, theme } = useAppTheme();
 
   useEffect(() => {
     let mounted = true;
@@ -71,6 +73,10 @@ function RootApp() {
   function onLogout() {
     setSession(null);
     setError("");
+  }
+
+  if (!isThemeReady) {
+    return <View style={{ flex: 1, backgroundColor: theme.colors.background }} />;
   }
 
   if (!session) {
@@ -138,8 +144,10 @@ function RootApp() {
 
 export default function App() {
   return (
-    <ThemeProvider>
-      <RootApp />
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ThemeProvider>
+        <RootApp />
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }

@@ -18,7 +18,7 @@ class StubInferenceService:
 class StubPortfolioRepository:
     def get_portfolio_risk_snapshot(self) -> PortfolioRiskSnapshot:
         return PortfolioRiskSnapshot(
-            total_assets_usd=890000,
+            total_assets_inr=890000,
             npc_rate_percent=4.2,
             label="Portfolio Risk",
         )
@@ -54,5 +54,5 @@ def test_analyze_endpoint_returns_dashboard_compatible_response() -> None:
     assert body["risk_grade"] == "High"
     assert isinstance(body["utilization_rate"], float)
     assert isinstance(body["risk_factors"], list)
-    assert body["portfolio_risk"]["total_assets_usd"] == 890000
+    assert body["portfolio_risk"]["total_assets_inr"] == 890000
     assert body["portfolio_risk"]["npc_rate_percent"] == 4.2

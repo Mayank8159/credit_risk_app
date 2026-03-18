@@ -65,7 +65,7 @@ export default function RiskResultCard({ title, result }) {
       ))}
 
       <Text style={styles.portfolioText}>
-        Portfolio Exposure ${result.portfolio_risk.total_assets_usd.toLocaleString()} | NPC {result.portfolio_risk.npc_rate_percent}%
+        Portfolio Exposure ₹{result.portfolio_risk.total_assets_inr.toLocaleString('en-IN')} | NPC {result.portfolio_risk.npc_rate_percent}%
       </Text>
     </LinearGradient>
   );
