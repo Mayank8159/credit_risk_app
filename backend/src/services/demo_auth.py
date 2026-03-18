@@ -24,7 +24,7 @@ class DemoAuthService:
                     )
                 ],
                 portfolio_risk=PortfolioRiskSnapshot(
-                    total_assets_usd=890000,
+                    total_assets_inr=890000,
                     npc_rate_percent=4.2,
                     label="Portfolio Risk",
                 ),
@@ -51,7 +51,7 @@ class DemoAuthService:
                     ),
                 ],
                 portfolio_risk=PortfolioRiskSnapshot(
-                    total_assets_usd=890000,
+                    total_assets_inr=890000,
                     npc_rate_percent=4.2,
                     label="Portfolio Risk",
                 ),
@@ -83,7 +83,7 @@ class DemoAuthService:
                     ),
                 ],
                 portfolio_risk=PortfolioRiskSnapshot(
-                    total_assets_usd=890000,
+                    total_assets_inr=890000,
                     npc_rate_percent=4.2,
                     label="Portfolio Risk",
                 ),
