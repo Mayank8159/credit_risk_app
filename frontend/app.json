@@ -1,0 +1,27 @@
+{
+  "expo": {
+    "name": "Credit Risk App",
+    "slug": "credit-risk-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#0b1f2a"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0b1f2a"
+      }
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}
