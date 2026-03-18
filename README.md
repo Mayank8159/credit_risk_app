@@ -1,205 +1,135 @@
-
-<!-- HERO -->
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0B0F1A,100:00D4FF&height=200&section=header&text=PRISM-CREDIT&fontSize=50&fontColor=ffffff&animation=fadeIn" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0B0F1A,100:A3FF12&height=200&section=header&text=PRISM-CREDIT&fontSize=50&fontColor=ffffff&animation=fadeIn" />
 </p>
 <p align="center">
-<b>Behavioral Risk Intelligence • Explainable AI • FinTech Engine</b>
+<b>Glassmorphic UI • Real-time Risk Analytics • Behavioral FinTech Engine</b>
 </p>
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=2000&pause=1000&color=00D4FF&center=true&vCenter=true&width=700&lines=AI+Driven+Credit+Scoring;Explainable+Risk+Engine;Mobile+First+FinTech;React+Native+%E2%9C%95+FastAPI" />
-</p>
-
----
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=2000&pause=1000&color=A3FF12&center=true&vCenter=true&width=700&lines=XGBoost+Driven+Risk+Scoring;Glassmorphic+Mobile+Experience;Real-time+Portfolio+Monitoring;FastAPI+%E2%9C%95+React+Native+Expo" />
+</p
 
 ## 🧠 What is PRISM-CREDIT?
 
-PRISM-CREDIT is a **next-generation AI-powered credit risk system** that evaluates users using **behavioral financial intelligence** instead of outdated demographic scoring.
+PRISM-CREDIT is a **High-Fidelity AI Credit Risk Management System**. It moves beyond stagnant credit bureau scores by analyzing live transactional behavior and portfolio exposure, wrapped in a premium **Glassmorphic** interface.
 
-### ⚡ Why it matters:
-- ❌ Traditional systems = biased + opaque  
-- ✅ PRISM = explainable + fair + real-time  
+### ⚡ The PRISM Edge:
 
----
+  - **Visual Risk Gauges:** Real-time needle movement based on financial health.
+  - **Explainable AI:** Uses Feature Contribution to tell users *why* their score changed.
+  - **Deep-Entity Tracking:** Monitors counterparty risk and industry volatility.
+
+-----
 
 ## 🔥 Key Highlights
 
-- 🧠 Behavioral Credit Scoring  
-- 📊 Explainable AI (XAI)  
-- 🔐 JWT Authentication System  
-- ⚙️ FastAPI + PostgreSQL Backend  
-- 📱 React Native Mobile App  
-- 🐳 Dockerized Infrastructure  
-- 📜 Audit-ready architecture  
+  - 🧪 **Advanced ML Engine:** Leveraging XGBoost/Random Forest for high-precision default prediction.
+  - 💎 **Liquid Glass UI:** Modern React Native design with high-intensity blur and neon accents.
+  - 📊 **Dynamic Portfolio:** Live tracking of "Risk-Weighted Assets" and "Total Exposure."
+  - 🚨 **Automated Alerts:** Real-time flagging of "Critical Risk Entities" and "Income Shocks."
+  - 🔐 **Secure Backend:** FastAPI with JWT-based Auth and Pydantic validation.
 
----
+-----
 
 ## 🏗️ System Architecture
 
 ```mermaid
 graph TD
-    A[Mobile App] -->|POST /risk/predict| B[FastAPI Backend]
-    B --> C[Validation Layer]
-    C --> D[Feature Engineering]
-    D --> E[Risk Engine]
-    E --> F[ML Model]
-    F --> G[Risk Score]
-    F --> H[Explainability Engine]
-    G --> I[Response Formatter]
-    H --> I
-    I --> A
-````
+    A[Mobile App - React Native] -->|POST /api/v1/risk/analyze| B[FastAPI Gateway]
+    B --> C[Auth & Validation Layer]
+    C --> D[Kaggle-Trained Preprocessor]
+    D --> E[Inference Service - XGBoost]
+    E --> F[Risk Score Output]
+    E --> G[XAI - Feature Importance]
+    F --> H[Dashboard Formatter]
+    G --> H
+    H --> A
+```
 
----
+-----
 
-## 🧠 Machine Learning
+## 🧠 Machine Learning Model
+
+The engine is trained on the **Kaggle Credit Risk Dataset**, utilizing 12+ critical financial features.
 
 | Component  | Tech                |
 | ---------- | ------------------- |
-| Algorithm  | Logistic Regression |
-| Processing | pandas, numpy       |
-| Framework  | scikit-learn        |
-| Output     | Risk Score + XAI    |
+| **Algorithm** | XGBoost / Random Forest |
+| **Data Source**| Kaggle Credit Risk CSV |
+| **Framework** | scikit-learn, joblib  |
+| **Metrics** | AUC-ROC, F1-Score    |
 
-### 🧾 Explainability Output Example:
+### 🧾 Explainability Indicators (XAI):
 
-* Savings Ratio → Positive impact
-* Expense Load → Negative impact
-* Transaction Behavior → Stability indicator
+  * **Loan Percent Income:** High ratio → Drastic negative impact.
+  * **Credit History Length:** Longevity → Stability boost.
+  * **Default History:** Prior defaults → Critical risk flag.
 
----
+-----
 
 ## 🛠️ Tech Stack
 
 ### 📱 Frontend
 
-* React Native (Expo)
-* Glassmorphism UI
+  * **React Native (Expo)**
+  * **Expo Blur** (Glassmorphism)
+  * **React Navigation** (Custom Floating Tab Bar)
 
 ### ⚙️ Backend
 
-* FastAPI
-* SQLAlchemy
-* PostgreSQL
-* JWT Authentication
+  * **FastAPI** (Python)
+  * **SQLAlchemy** (ORM)
+  * **PostgreSQL** (Database)
 
-### 🤖 ML
+### 🤖 ML & Data
 
-* scikit-learn
-* pandas
-* numpy
+  * **XGBoost / scikit-learn**
+  * **Pandas/Numpy** (Pre-processing)
 
-### 🐳 DevOps
+-----
 
-* Docker
-* Nginx
+## 📡 API Reference
 
----
+### POST `/api/v1/risk/analyze`
 
-## ⚡ Quick Start
-
-### 1️⃣ Clone
-
-```bash
-git clone https://github.com/yourusername/prism-credit.git
-cd prism-credit
-```
-
----
-
-### 2️⃣ Backend
-
-```bash
-cd apps/backend
-
-python3 -m venv venv
-source venv/bin/activate
-
-pip install -r requirements.txt
-
-uvicorn app.main:app --reload
-```
-
----
-
-### 3️⃣ Mobile
-
-```bash
-cd apps/mobile
-
-npm install
-npx expo start
-```
-
----
-
-## 📡 API Example
-
-### POST `/risk/predict`
+**Request Body:**
 
 ```json
 {
-  "income": 7500,
-  "expenses": 2000,
-  "savings": 15000,
-  "transaction_count": 45
+  "person_age": 24,
+  "person_income": 85000,
+  "loan_amnt": 15000,
+  "loan_intent": "VENTURE",
+  "cb_person_default_on_file": "N",
+  "cb_person_cred_hist_length": 5
 }
 ```
 
-### Response
+**Response:**
 
 ```json
 {
-  "score": 780,
-  "risk_level": "Low",
-  "explanations": [
-    {
-      "factor": "Savings Ratio",
-      "impact": "+",
-      "weight": 0.30,
-      "description": "Strong savings improves your risk profile"
-    }
-  ],
-  "compliance": {
-    "demographic_data_used": false,
-    "model_type": "Logistic Regression",
-    "explainability": "Feature Contribution Based"
+  "risk_score": 72,
+  "risk_grade": "Moderate-High",
+  "status": "Manual Review Required",
+  "analysis": {
+    "utilization_rate": 0.28,
+    "primary_risk_factor": "Loan to Income Ratio",
+    "xai_explanation": "Your loan amount exceeds 20% of annual income."
   }
 }
 ```
 
----
+-----
 
-## 🔐 Security
+## 👨‍💻 Team 7SENSITIVE
 
-* JWT Authentication
-* Password hashing (bcrypt)
-* Protected endpoints
-* No demographic bias usage
+  * **Mayank Kumar Sharma** - *Software Development Lead*
+  * **Pawan Agrahari** \* **Shreyan Mitra**
+  * **Rajat Kumar Chandak**
+  * **Parnatosh Mukherjee**
 
----
-
-## 🚀 Future Scope
-
-* SHAP Explainability
-* Banking API integration
-* Model retraining pipeline
-* PDF report generation
-* RBI-aligned compliance
-
----
-
-## 👨‍💻 Team
-
-* Mayank Kumar Sharma
-* Pawan Agrahari
-* Shreyan Mitra
-* Rajat Kumar Chandak
-* Parnatosh Mukherjee
-
----
-
+-----
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:00D4FF,100:0B0F1A&height=120&section=footer"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:A3FF12,100:0B0F1A&height=120&section=footer"/>
 </p>
