@@ -119,12 +119,6 @@ The engine is trained on the **Kaggle Credit Risk Dataset**, utilizing 12+ criti
   }
 }
 ```
-
-### 📲 How to Run:
-1. **Download the Build:** Click the green button above to access the specific artifact (Build ID: `86da35ea`).
-2. **Android/iOS:** Follow the Expo instructions to install the development build or open via **Expo Go**.
-3. **Scan & Analyze:** Use the central "Analyze" button to trigger the XGBoost risk engine simulation.
-
 -----
 
 ## 👨‍💻 Team 7SENSITIVE
