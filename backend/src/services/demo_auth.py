@@ -108,6 +108,11 @@ class DemoAuthService:
 
     def list_demo_users(self) -> list[dict[str, str]]:
         return [
-            {"username": key, "password": "demo123", "role": value["role"]}
+            {
+                "username": key,
+                "password": "demo123",
+                "full_name": value["full_name"],
+                "role": value["role"],
+            }
             for key, value in self._demo_users.items()
         ]
