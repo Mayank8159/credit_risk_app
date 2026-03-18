@@ -27,6 +27,9 @@ class Settings:
 	cors_allow_credentials: bool
 	cors_allow_methods: list[str]
 	cors_allow_headers: list[str]
+	enable_keep_warm_timer: bool
+	keep_warm_interval_seconds: int
+	keep_warm_url: str | None
 
 
 @lru_cache(maxsize=1)
@@ -64,4 +67,11 @@ def get_settings() -> Settings:
 		),
 		cors_allow_methods=methods if methods else ["*"],
 		cors_allow_headers=headers if headers else ["*"],
+		enable_keep_warm_timer=_as_bool(
+			os.getenv("ENABLE_KEEP_WARM_TIMER", "false"), default=False
+		),
+		keep_warm_interval_seconds=max(
+			10, int(os.getenv("KEEP_WARM_INTERVAL_SECONDS", "50"))
+		),
+		keep_warm_url=(os.getenv("KEEP_WARM_URL") or "").strip() or None,
 	)
