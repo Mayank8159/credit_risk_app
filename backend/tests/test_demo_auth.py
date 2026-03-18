@@ -18,9 +18,9 @@ def test_demo_users_list_contains_three_profiles() -> None:
 
 def test_demo_login_returns_different_outputs_per_user() -> None:
     credentials = [
-        {"username": "demo_low", "password": "demo123"},
-        {"username": "demo_moderate", "password": "demo123"},
-        {"username": "demo_high", "password": "demo123"},
+        {"username": "aarav", "password": "demo123"},
+        {"username": "nisha", "password": "demo123"},
+        {"username": "rohan", "password": "demo123"},
     ]
 
     scores: list[int] = []
@@ -38,7 +38,7 @@ def test_demo_login_invalid_credentials() -> None:
     with TestClient(app) as client:
         response = client.post(
             "/api/v1/auth/login",
-            json={"username": "demo_low", "password": "wrong"},
+            json={"username": "aarav", "password": "wrong"},
         )
 
     assert response.status_code == 401

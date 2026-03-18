@@ -31,6 +31,6 @@ npm run start
 
 ## Demo Credentials
 
-- `demo_low` / `demo123`
-- `demo_moderate` / `demo123`
-- `demo_high` / `demo123`
+- `aarav` / `demo123` (Low Risk)
+- `nisha` / `demo123` (Moderate Risk)
+- `rohan` / `demo123` (High Risk)

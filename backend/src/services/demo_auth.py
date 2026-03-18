@@ -8,7 +8,7 @@ class DemoAuthService:
     """Simple in-memory demo user auth service for college project testing."""
 
     _demo_users: dict[str, dict] = {
-        "demo_low": {
+        "aarav": {
             "password": "demo123",
             "full_name": "Aarav Sharma",
             "role": "Low Risk Applicant",
@@ -30,7 +30,7 @@ class DemoAuthService:
                 ),
             ),
         },
-        "demo_moderate": {
+        "nisha": {
             "password": "demo123",
             "full_name": "Nisha Verma",
             "role": "Moderate Risk Applicant",
@@ -57,7 +57,7 @@ class DemoAuthService:
                 ),
             ),
         },
-        "demo_high": {
+        "rohan": {
             "password": "demo123",
             "full_name": "Rohan Mehta",
             "role": "High Risk Applicant",

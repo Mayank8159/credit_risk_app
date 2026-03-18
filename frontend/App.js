@@ -5,7 +5,6 @@ import { View } from "react-native";
 
 import AppTabs from "./src/navigation/AppTabs";
 import LoginScreen from "./src/screens/LoginScreen";
-import SplashScreen from "./src/components/SplashScreen";
 import { fetchDemoUsers, loginDemoUser } from "./src/services/authService";
 import { ThemeProvider, useAppTheme } from "./src/theme/ThemeContext";
 
@@ -15,7 +14,6 @@ function RootApp() {
   const [loadingUsers, setLoadingUsers] = useState(true);
   const [authLoading, setAuthLoading] = useState(false);
   const [error, setError] = useState("");
-  const [showSplash, setShowSplash] = useState(true);
   const { isThemeReady, theme } = useAppTheme();
 
   useEffect(() => {
@@ -44,14 +42,6 @@ function RootApp() {
     return () => {
       mounted = false;
     };
-  }, []);
-
-  useEffect(() => {
-    const splashTimer = setTimeout(() => {
-      setShowSplash(false);
-    }, 3000);
-
-    return () => clearTimeout(splashTimer);
   }, []);
 
   async function onLogin(credentials) {
@@ -87,10 +77,6 @@ function RootApp() {
 
   if (!isThemeReady) {
     return <View style={{ flex: 1, backgroundColor: theme.colors.background }} />;
-  }
-
-  if (showSplash) {
-    return <SplashScreen isVisible={showSplash} />;
   }
 
   if (!session) {

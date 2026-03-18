@@ -1,5 +1,5 @@
 export const USER_SCENARIO_PAYLOADS = {
-  demo_low: {
+  aarav: {
     person_age: 29,
     person_income: 92000,
     person_home_ownership: "MORTGAGE",
@@ -12,7 +12,7 @@ export const USER_SCENARIO_PAYLOADS = {
     cb_person_default_on_file: "N",
     cb_person_cred_hist_length: 8,
   },
-  demo_moderate: {
+  nisha: {
     person_age: 34,
     person_income: 64000,
     person_home_ownership: "RENT",
@@ -25,7 +25,7 @@ export const USER_SCENARIO_PAYLOADS = {
     cb_person_default_on_file: "N",
     cb_person_cred_hist_length: 6,
   },
-  demo_high: {
+  rohan: {
     person_age: 24,
     person_income: 38000,
     person_home_ownership: "RENT",

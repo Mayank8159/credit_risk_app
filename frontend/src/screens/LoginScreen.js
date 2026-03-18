@@ -15,7 +15,7 @@ import InputField from "../components/InputField";
 import { useAppTheme } from "../theme/ThemeContext";
 
 const DEFAULT_CREDENTIALS = {
-  username: "demo_low",
+  username: "aarav",
   password: "demo123",
 };
 

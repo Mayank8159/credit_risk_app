@@ -107,9 +107,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
   },
   logo: {
-    width: 240,
-    height: 240,
-    marginBottom: 80,
+    width: 180,
+    height: 180,
+    marginBottom: 60,
   },
   loaderContainer: {
     width: "100%",

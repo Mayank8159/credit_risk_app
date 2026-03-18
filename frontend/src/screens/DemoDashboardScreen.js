@@ -59,7 +59,7 @@ export default function DemoDashboardScreen({
     if (!session?.user?.username) {
       return null;
     }
-    return USER_SCENARIO_PAYLOADS[session.user.username] || USER_SCENARIO_PAYLOADS.demo_low;
+    return USER_SCENARIO_PAYLOADS[session.user.username] || USER_SCENARIO_PAYLOADS.aarav;
   }, [session]);
 
   const visibleResult = liveAnalysis || session.dashboard_preview;

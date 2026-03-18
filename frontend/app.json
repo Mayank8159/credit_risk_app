@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "Credit Risk App",
+    "name": "PRISM CREDIT",
     "slug": "credit-risk-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
-    "icon": "./assets/applogo1.png",
+    "icon": "./assets/app-icon.png",
     "splash": {
       "image": "./assets/applogo1.png",
-      "resizeMode": "cover",
+      "resizeMode": "contain",
       "backgroundColor": "#4A90E2"
     },
     "assetBundlePatterns": [

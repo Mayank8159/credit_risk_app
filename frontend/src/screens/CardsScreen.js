@@ -6,11 +6,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useAppTheme } from "../theme/ThemeContext";
 
 const USER_CARD_PROFILES = {
-  demo_low: {
+  aarav: {
     accountType: "Demi Sapphire",
     cardTier: "SAPPHIRE",
     cardNumber: "4723 56XX XXXX 1892",
-    accountNumber: "DM-DLOW-9812-1140",
+    accountNumber: "DM-AARAV-9812-1140",
     ifsc: "DEMI0001301",
     branch: "Demi Residency Branch",
     availableBalance: 845600,
@@ -21,11 +21,11 @@ const USER_CARD_PROFILES = {
       dark: ["#162233", "#1f3652", "#0f1b2b"],
     },
   },
-  demo_moderate: {
+  nisha: {
     accountType: "Demi Platinum",
     cardTier: "PLATINUM",
     cardNumber: "5224 91XX XXXX 7845",
-    accountNumber: "DM-DMOD-7845-2291",
+    accountNumber: "DM-NISHA-7845-2291",
     ifsc: "DEMI0002471",
     branch: "Demi Prime Branch",
     availableBalance: 2845600,
@@ -36,11 +36,11 @@ const USER_CARD_PROFILES = {
       dark: ["#232a3a", "#40495d", "#1a1f2b"],
     },
   },
-  demo_high: {
+  rohan: {
     accountType: "Demi Signature Metal",
     cardTier: "SIGNATURE",
     cardNumber: "5487 33XX XXXX 9014",
-    accountNumber: "DM-DHIG-9014-6630",
+    accountNumber: "DM-ROHAN-9014-6630",
     ifsc: "DEMI0003127",
     branch: "Demi Capital Branch",
     availableBalance: 498200,
@@ -68,15 +68,93 @@ const USER_CARD_PROFILES = {
   },
 };
 
+const USER_LOANS = {
+  aarav: [
+    {
+      id: "L101",
+      loanType: "Personal Loan",
+      amount: 250000,
+      disbursed: 250000,
+      emi: 8450,
+      tenure: "36 months",
+      balance: 145000,
+      nextDueDate: "2026-04-15",
+      status: "Active",
+    },
+  ],
+  nisha: [
+    {
+      id: "L201",
+      loanType: "Home Loan",
+      amount: 3500000,
+      disbursed: 3500000,
+      emi: 42500,
+      tenure: "180 months",
+      balance: 2850000,
+      nextDueDate: "2026-03-25",
+      status: "Active",
+    },
+    {
+      id: "L202",
+      loanType: "Car Loan",
+      amount: 850000,
+      disbursed: 850000,
+      emi: 18900,
+      tenure: "60 months",
+      balance: 425000,
+      nextDueDate: "2026-03-20",
+      status: "Active",
+    },
+  ],
+  rohan: [
+    {
+      id: "L301",
+      loanType: "Business Loan",
+      amount: 2500000,
+      disbursed: 2500000,
+      emi: 65400,
+      tenure: "48 months",
+      balance: 1250000,
+      nextDueDate: "2026-03-28",
+      status: "Active",
+    },
+    {
+      id: "L302",
+      loanType: "Education Loan",
+      amount: 1200000,
+      disbursed: 1200000,
+      emi: 12800,
+      tenure: "120 months",
+      balance: 850000,
+      nextDueDate: "2026-04-05",
+      status: "Active",
+    },
+    {
+      id: "L303",
+      loanType: "Personal Loan",
+      amount: 500000,
+      disbursed: 500000,
+      emi: 16700,
+      tenure: "36 months",
+      balance: 280000,
+      nextDueDate: "2026-03-18",
+      status: "Active",
+    },
+  ],
+  default: [],
+};
+
 function getAccountDetails(session) {
   const fullName = session?.user?.full_name || "Demi Account Holder";
   const username = session?.user?.username || "default";
   const role = session?.user?.role || "Premium Account";
   const profile = USER_CARD_PROFILES[username] || USER_CARD_PROFILES.default;
+  const loans = USER_LOANS[username] || USER_LOANS.default;
 
   return {
     holderName: fullName,
     role,
+    loans,
     ...profile,
   };
 }
@@ -220,6 +298,61 @@ export default function CardsScreen({ session }) {
             </View>
           </View>
         </View>
+
+        {account.loans && account.loans.length > 0 && (
+          <View style={styles.loansSection}>
+            <Text style={styles.loansTitle}>Active Loans</Text>
+            {account.loans.map((loan) => (
+              <View key={loan.id} style={styles.loanCard}>
+                <View style={styles.loanHeader}>
+                  <View>
+                    <Text style={styles.loanType}>{loan.loanType}</Text>
+                    <Text style={styles.loanId}>Loan ID: {loan.id}</Text>
+                  </View>
+                  <View style={styles.loanStatusBadge}>
+                    <Text style={styles.loanStatus}>{loan.status}</Text>
+                  </View>
+                </View>
+
+                <View style={styles.loanGrid}>
+                  <View style={styles.loanGridItem}>
+                    <Text style={styles.loanGridLabel}>Sanctioned</Text>
+                    <Text style={styles.loanGridValue}>₹{loan.amount.toLocaleString("en-IN")}</Text>
+                  </View>
+                  <View style={styles.loanGridItem}>
+                    <Text style={styles.loanGridLabel}>Outstanding</Text>
+                    <Text style={styles.loanGridValue}>₹{loan.balance.toLocaleString("en-IN")}</Text>
+                  </View>
+                  <View style={styles.loanGridItem}>
+                    <Text style={styles.loanGridLabel}>Monthly EMI</Text>
+                    <Text style={styles.loanGridValue}>₹{loan.emi.toLocaleString("en-IN")}</Text>
+                  </View>
+                  <View style={styles.loanGridItem}>
+                    <Text style={styles.loanGridLabel}>Tenure</Text>
+                    <Text style={styles.loanGridValue}>{loan.tenure}</Text>
+                  </View>
+                </View>
+
+                <View style={styles.loanFooter}>
+                  <View>
+                    <Text style={styles.loanFooterLabel}>Next Due</Text>
+                    <Text style={styles.loanFooterValue}>{loan.nextDueDate}</Text>
+                  </View>
+                  <View style={styles.loanProgressBar}>
+                    <View
+                      style={[
+                        styles.loanProgress,
+                        {
+                          width: `${((loan.amount - loan.balance) / loan.amount) * 100}%`,
+                        },
+                      ]}
+                    />
+                  </View>
+                </View>
+              </View>
+            ))}
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -403,6 +536,113 @@ function createStyles(theme) {
       color: theme.colors.textPrimary,
       fontSize: 16,
       fontWeight: "800",
+    },
+    loansSection: {
+      marginTop: 8,
+      gap: 10,
+    },
+    loansTitle: {
+      color: theme.colors.textPrimary,
+      fontSize: 18,
+      fontWeight: "800",
+      marginBottom: 4,
+    },
+    loanCard: {
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: theme.colors.border,
+      backgroundColor: theme.colors.card,
+      padding: 12,
+      gap: 10,
+    },
+    loanHeader: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "flex-start",
+    },
+    loanType: {
+      color: theme.colors.textPrimary,
+      fontSize: 15,
+      fontWeight: "700",
+      marginBottom: 2,
+    },
+    loanId: {
+      color: theme.colors.textSecondary,
+      fontSize: 11,
+      fontWeight: "500",
+    },
+    loanStatusBadge: {
+      backgroundColor:
+        theme.mode === "dark"
+          ? "rgba(76, 175, 80, 0.25)"
+          : "rgba(76, 175, 80, 0.15)",
+      borderRadius: 8,
+      paddingHorizontal: 8,
+      paddingVertical: 4,
+    },
+    loanStatus: {
+      color: theme.mode === "dark" ? "#66BB6A" : "#388E3C",
+      fontSize: 11,
+      fontWeight: "600",
+    },
+    loanGrid: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      gap: 10,
+    },
+    loanGridItem: {
+      flex: 1,
+      minWidth: "45%",
+      backgroundColor: theme.colors.cardMuted,
+      borderRadius: 10,
+      padding: 8,
+    },
+    loanGridLabel: {
+      color: theme.colors.textSecondary,
+      fontSize: 10,
+      fontWeight: "600",
+      textTransform: "uppercase",
+      letterSpacing: 0.5,
+      marginBottom: 4,
+    },
+    loanGridValue: {
+      color: theme.colors.textPrimary,
+      fontSize: 13,
+      fontWeight: "700",
+    },
+    loanFooter: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      gap: 10,
+    },
+    loanFooterLabel: {
+      color: theme.colors.textSecondary,
+      fontSize: 10,
+      fontWeight: "600",
+      textTransform: "uppercase",
+      letterSpacing: 0.5,
+      marginBottom: 3,
+    },
+    loanFooterValue: {
+      color: theme.colors.textPrimary,
+      fontSize: 12,
+      fontWeight: "700",
+    },
+    loanProgressBar: {
+      flex: 1,
+      height: 6,
+      backgroundColor: theme.colors.border,
+      borderRadius: 3,
+      overflow: "hidden",
+    },
+    loanProgress: {
+      height: "100%",
+      backgroundColor:
+        theme.mode === "dark"
+          ? "rgba(78, 123, 255, 0.8)"
+          : "rgba(30, 111, 217, 0.7)",
+      borderRadius: 3,
     },
   });
 }
