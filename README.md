@@ -119,6 +119,25 @@ The engine is trained on the **Kaggle Credit Risk Dataset**, utilizing 12+ criti
   }
 }
 ```
+---
+
+## 🚀 Experience the App
+
+Experience the **PRISM-CREDIT** high-fidelity glassmorphic UI directly on your device via Expo.
+
+<p align="left">
+  <a href="https://expo.dev/accounts/mayank8159/projects/credit-risk-app/builds/86da35ea-be49-4928-9386-ab99874653a7">
+    <img src="https://img.shields.io/badge/Download_Build-A3FF12?style=for-the-badge&logo=expo&logoColor=0B0F1A" alt="Download Build" />
+  </a>
+  <a href="https://expo.dev/@mayank8159/credit-risk-app">
+    <img src="https://img.shields.io/badge/Expo_Go-000000?style=for-the-badge&logo=expo&logoColor=white" alt="Expo Go" />
+  </a>
+</p>
+
+### 📲 How to Run:
+1. **Download the Build:** Click the green button above to access the specific artifact (Build ID: `86da35ea`).
+2. **Android/iOS:** Follow the Expo instructions to install the development build or open via **Expo Go**.
+3. **Scan & Analyze:** Use the central "Analyze" button to trigger the XGBoost risk engine simulation.
 
 -----
 
