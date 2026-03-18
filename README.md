@@ -124,8 +124,9 @@ The engine is trained on the **Kaggle Credit Risk Dataset**, utilizing 12+ criti
 
 ## 👨‍💻 Team 7SENSITIVE
 
-  * **Mayank Kumar Sharma** - *Software Development Lead*
-  * **Pawan Agrahari** \* **Shreyan Mitra**
+  * **Mayank Kumar Sharma** 
+  * **Pawan Agrahari**
+  * **Shreyan Mitra**
   * **Rajat Kumar Chandak**
   * **Parnatosh Mukherjee**
 
