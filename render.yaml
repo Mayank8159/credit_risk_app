@@ -7,7 +7,7 @@ services:
     startCommand: uvicorn backend.asgi:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: PYTHON_VERSION
-        value: 3.13.1
+        value: 3.12.7
       - key: APP_ENV
         value: production
       - key: MODEL_AUTOLOAD
@@ -23,7 +23,7 @@ services:
       - key: KEEP_WARM_INTERVAL_SECONDS
         value: "50"
       - key: KEEP_WARM_URL
-        value: https://credit-risk-api.onrender.com/health
+        value: https://credit-risk-app-t54o.onrender.com/health
 
   - type: cron
     name: credit-risk-keepalive

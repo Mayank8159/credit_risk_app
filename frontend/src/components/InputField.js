@@ -21,18 +21,18 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   label: {
-    color: "#d4e5ee",
+    color: "#c5d5e4",
     marginBottom: 6,
     fontSize: 13,
     fontWeight: "600",
   },
   input: {
     borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.25)",
+    borderColor: "rgba(126, 152, 177, 0.45)",
     borderRadius: 12,
     paddingHorizontal: 14,
     paddingVertical: 12,
-    color: "#ffffff",
-    backgroundColor: "rgba(255,255,255,0.1)",
+    color: "#f2f8fd",
+    backgroundColor: "rgba(20, 37, 54, 0.85)",
   },
 });

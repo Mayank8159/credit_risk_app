@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 
 function RiskBadge({ grade }) {
   const color =
-    grade === "High" ? "#ff5d70" : grade === "Moderate" ? "#ffbf5f" : "#6be7b3";
+    grade === "High" ? "#f07a6d" : grade === "Moderate" ? "#f2c56e" : "#72d8af";
 
   return (
     <View style={[styles.badge, { borderColor: color }]}>
@@ -54,10 +54,10 @@ export default function RiskResultCard({ title, result }) {
 const styles = StyleSheet.create({
   card: {
     marginTop: 14,
-    borderRadius: 16,
+    borderRadius: 18,
     borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.22)",
-    backgroundColor: "rgba(10, 33, 48, 0.65)",
+    borderColor: "rgba(140, 168, 193, 0.28)",
+    backgroundColor: "rgba(32, 53, 74, 0.84)",
     padding: 14,
   },
   headerRow: {
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   title: {
-    color: "#f1f7fb",
+    color: "#ecf3fa",
     fontWeight: "700",
     fontSize: 16,
   },
@@ -90,20 +90,20 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     borderRadius: 12,
-    backgroundColor: "rgba(255,255,255,0.08)",
+    backgroundColor: "rgba(23, 41, 59, 0.75)",
   },
   metricLabel: {
-    color: "#b8cad5",
+    color: "#9ab1c4",
     fontSize: 12,
     marginBottom: 4,
   },
   metricValue: {
-    color: "#f4fcff",
+    color: "#f39b88",
     fontSize: 18,
     fontWeight: "700",
   },
   sectionTitle: {
-    color: "#d9eaf2",
+    color: "#d8e5f0",
     fontWeight: "600",
     marginBottom: 6,
   },
@@ -112,17 +112,17 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   factorDot: {
-    color: "#7bc8ff",
+    color: "#f39b88",
     marginRight: 6,
     fontWeight: "700",
   },
   factorText: {
-    color: "#d9ebf5",
+    color: "#c8d8e6",
     flex: 1,
   },
   portfolioText: {
     marginTop: 10,
-    color: "#a9c4d4",
+    color: "#95adbf",
     fontSize: 12,
   },
 });
