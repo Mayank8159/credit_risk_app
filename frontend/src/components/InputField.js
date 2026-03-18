@@ -1,6 +1,10 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
+import { useAppTheme } from "../theme/ThemeContext";
 
 export default function InputField({ label, value, onChangeText, secureTextEntry }) {
+  const { theme } = useAppTheme();
+  const styles = createStyles(theme);
+
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
@@ -10,29 +14,34 @@ export default function InputField({ label, value, onChangeText, secureTextEntry
         secureTextEntry={secureTextEntry}
         autoCapitalize="none"
         style={styles.input}
-        placeholderTextColor="#89a1ad"
+        placeholderTextColor={theme.colors.textSecondary}
       />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: 12,
-  },
-  label: {
-    color: "#c5d5e4",
-    marginBottom: 6,
-    fontSize: 13,
-    fontWeight: "600",
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "rgba(126, 152, 177, 0.45)",
-    borderRadius: 12,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    color: "#f2f8fd",
-    backgroundColor: "rgba(20, 37, 54, 0.85)",
-  },
-});
+function createStyles(theme) {
+  return StyleSheet.create({
+    container: {
+      marginBottom: 14,
+    },
+    label: {
+      color: theme.colors.textSecondary,
+      marginBottom: 7,
+      fontSize: 12,
+      letterSpacing: 0.6,
+      textTransform: "uppercase",
+      fontWeight: "600",
+    },
+    input: {
+      borderWidth: 1,
+      borderColor: theme.colors.inputBorder,
+      borderRadius: 14,
+      paddingHorizontal: 14,
+      paddingVertical: 13,
+      color: theme.colors.textPrimary,
+      fontSize: 14,
+      backgroundColor: theme.colors.inputBg,
+    },
+  });
+}

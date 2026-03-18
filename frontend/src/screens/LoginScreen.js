@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { LinearGradient } from "expo-linear-gradient";
 import {
   ActivityIndicator,
   Pressable,
@@ -11,6 +12,7 @@ import {
 } from "react-native";
 
 import InputField from "../components/InputField";
+import { useAppTheme } from "../theme/ThemeContext";
 
 const DEFAULT_CREDENTIALS = {
   username: "demo_low",
@@ -24,8 +26,10 @@ export default function LoginScreen({
   error,
   onLogin,
 }) {
+  const { theme } = useAppTheme();
   const [username, setUsername] = useState(DEFAULT_CREDENTIALS.username);
   const [password, setPassword] = useState(DEFAULT_CREDENTIALS.password);
+  const styles = createStyles(theme);
 
   function onSelectUser(user) {
     setUsername(user.username);
@@ -39,18 +43,45 @@ export default function LoginScreen({
   return (
     <SafeAreaView style={styles.root}>
       <StatusBar barStyle="light-content" />
+      <LinearGradient
+        colors={theme.gradients.page}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.gradientBackdrop}
+      />
       <View style={styles.glowOne} />
       <View style={styles.glowTwo} />
+      <View style={styles.gridOverlay} />
 
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.eyebrow}>Credit Report</Text>
-        <Text style={styles.title}>Sign In</Text>
+        <View style={styles.brandRow}>
+          <Text style={styles.logoMark}>CR</Text>
+          <Text style={styles.brandText}>Credit Risk Intelligence</Text>
+        </View>
+        <Text style={styles.eyebrow}>Secure Access</Text>
+        <Text style={styles.title}>Welcome back</Text>
         <Text style={styles.subtitle}>
-          Login with one of your 3 sample users to view risk insights.
+          Choose a demo profile and sign in to explore live credit-risk predictions.
         </Text>
+
+        <View style={styles.kpiRow}>
+          <View style={styles.kpiCard}>
+            <Text style={styles.kpiValue}>3</Text>
+            <Text style={styles.kpiLabel}>Demo Personas</Text>
+          </View>
+          <View style={styles.kpiCard}>
+            <Text style={styles.kpiValue}>Live</Text>
+            <Text style={styles.kpiLabel}>API Inference</Text>
+          </View>
+          <View style={styles.kpiCard}>
+            <Text style={styles.kpiValue}>v1</Text>
+            <Text style={styles.kpiLabel}>Model Stack</Text>
+          </View>
+        </View>
 
         <View style={styles.card}>
           <Text style={styles.sectionTitle}>Sample Users</Text>
+          <Text style={styles.sectionSubtitle}>Tap a profile to auto-fill credentials</Text>
           {loadingUsers ? (
             <ActivityIndicator color="#ff8f7a" style={styles.loader} />
           ) : (
@@ -63,11 +94,13 @@ export default function LoginScreen({
                     style={[styles.userChip, isActive && styles.userChipActive]}
                     onPress={() => onSelectUser(user)}
                   >
-                    <Text style={[styles.userChipName, isActive && styles.userChipNameActive]}>
-                      {user.full_name}
-                    </Text>
-                    <Text style={styles.userChipMeta}>{user.username}</Text>
-                    <Text style={styles.userChipMeta}>{user.role}</Text>
+                    <View style={styles.userChipTopRow}>
+                      <Text style={[styles.userChipName, isActive && styles.userChipNameActive]}>
+                        {user.full_name}
+                      </Text>
+                      <Text style={styles.userChipRole}>{user.role}</Text>
+                    </View>
+                    <Text style={styles.userChipMeta}>@{user.username}</Text>
                   </Pressable>
                 );
               })}
@@ -88,9 +121,16 @@ export default function LoginScreen({
               disabled={authLoading}
               onPress={onSubmit}
             >
-              <Text style={styles.loginButtonText}>
-                {authLoading ? "Signing in..." : "Login"}
-              </Text>
+              <LinearGradient
+                colors={theme.gradients.button}
+                start={{ x: 0, y: 0.5 }}
+                end={{ x: 1, y: 0.5 }}
+                style={styles.loginButtonGradient}
+              >
+                <Text style={styles.loginButtonText}>
+                  {authLoading ? "Signing in..." : "Login"}
+                </Text>
+              </LinearGradient>
             </Pressable>
 
             {error ? <Text style={styles.error}>{error}</Text> : null}
@@ -101,121 +141,201 @@ export default function LoginScreen({
   );
 }
 
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: "#1f3045",
-  },
-  glowOne: {
-    position: "absolute",
-    width: 320,
-    height: 320,
-    borderRadius: 160,
-    top: -110,
-    left: -90,
-    backgroundColor: "rgba(60, 105, 150, 0.26)",
-  },
-  glowTwo: {
-    position: "absolute",
-    width: 300,
-    height: 300,
-    borderRadius: 150,
-    right: -120,
-    bottom: -110,
-    backgroundColor: "rgba(255, 141, 117, 0.2)",
-  },
-  content: {
-    paddingHorizontal: 24,
-    paddingTop: 28,
-    paddingBottom: 44,
-  },
-  eyebrow: {
-    color: "#90a8bf",
-    fontSize: 15,
-    letterSpacing: 0.4,
-    marginBottom: 8,
-    fontWeight: "600",
-  },
-  title: {
-    color: "#f7a08d",
-    fontSize: 42,
-    fontWeight: "800",
-    lineHeight: 46,
-  },
-  subtitle: {
-    marginTop: 12,
-    color: "#b9cad8",
-    fontSize: 15,
-    lineHeight: 22,
-  },
-  card: {
-    marginTop: 20,
-    borderRadius: 22,
-    borderWidth: 1,
-    borderColor: "rgba(145, 170, 197, 0.28)",
-    backgroundColor: "rgba(28, 47, 68, 0.88)",
-    padding: 16,
-  },
-  sectionTitle: {
-    color: "#eff5fb",
-    fontSize: 16,
-    fontWeight: "700",
-    marginBottom: 12,
-  },
-  loader: {
-    marginVertical: 16,
-  },
-  userList: {
-    gap: 10,
-  },
-  userChip: {
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: "rgba(133, 159, 187, 0.34)",
-    backgroundColor: "rgba(24, 41, 60, 0.85)",
-    padding: 12,
-  },
-  userChipActive: {
-    borderColor: "rgba(246, 157, 140, 0.9)",
-    backgroundColor: "rgba(70, 70, 98, 0.9)",
-  },
-  userChipName: {
-    color: "#dce7f1",
-    fontWeight: "700",
-    fontSize: 15,
-  },
-  userChipNameActive: {
-    color: "#ffd4c8",
-  },
-  userChipMeta: {
-    color: "#9eb2c6",
-    marginTop: 2,
-    fontSize: 12,
-  },
-  formBlock: {
-    marginTop: 16,
-  },
-  loginButton: {
-    marginTop: 4,
-    borderRadius: 12,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 12,
-    backgroundColor: "#f28b74",
-  },
-  loginButtonDisabled: {
-    opacity: 0.75,
-  },
-  loginButtonText: {
-    color: "#162739",
-    fontSize: 15,
-    fontWeight: "800",
-    letterSpacing: 0.3,
-  },
-  error: {
-    marginTop: 10,
-    color: "#ffb6ad",
-    fontWeight: "700",
-    fontSize: 13,
-  },
-});
+function createStyles(theme) {
+  return StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: theme.colors.background,
+    },
+    gradientBackdrop: {
+      ...StyleSheet.absoluteFillObject,
+    },
+    glowOne: {
+      position: "absolute",
+      width: 340,
+      height: 340,
+      borderRadius: 170,
+      top: -80,
+      left: -120,
+      backgroundColor: theme.mode === "dark" ? "rgba(82, 171, 255, 0.18)" : "rgba(77, 132, 206, 0.16)",
+    },
+    glowTwo: {
+      position: "absolute",
+      width: 320,
+      height: 320,
+      borderRadius: 160,
+      right: -120,
+      bottom: -90,
+      backgroundColor: theme.mode === "dark" ? "rgba(145, 94, 255, 0.18)" : "rgba(81, 137, 232, 0.12)",
+    },
+    gridOverlay: {
+      ...StyleSheet.absoluteFillObject,
+      opacity: 0.18,
+      backgroundColor: "transparent",
+      borderWidth: 0,
+    },
+    content: {
+      paddingHorizontal: 24,
+      paddingTop: 20,
+      paddingBottom: 44,
+    },
+    brandRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      marginBottom: 14,
+    },
+    logoMark: {
+      width: 34,
+      height: 34,
+      borderRadius: 17,
+      textAlign: "center",
+      textAlignVertical: "center",
+      fontWeight: "800",
+      fontSize: 13,
+      color: theme.colors.textPrimary,
+      backgroundColor: theme.colors.chipBg,
+      marginRight: 10,
+    },
+    brandText: {
+      color: theme.colors.textPrimary,
+      fontWeight: "700",
+      fontSize: 14,
+      letterSpacing: 0.2,
+    },
+    eyebrow: {
+      color: theme.colors.textSecondary,
+      fontSize: 14,
+      letterSpacing: 1.2,
+      textTransform: "uppercase",
+      marginBottom: 6,
+      fontWeight: "600",
+    },
+    title: {
+      color: theme.colors.textPrimary,
+      fontSize: 40,
+      fontWeight: "800",
+      lineHeight: 44,
+    },
+    subtitle: {
+      marginTop: 10,
+      color: theme.colors.textSecondary,
+      fontSize: 15,
+      lineHeight: 22,
+    },
+    kpiRow: {
+      marginTop: 18,
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
+    kpiCard: {
+      width: "31%",
+      borderRadius: 14,
+      borderWidth: 1,
+      borderColor: theme.colors.border,
+      backgroundColor: theme.colors.cardMuted,
+      paddingVertical: 10,
+      paddingHorizontal: 8,
+    },
+    kpiValue: {
+      color: theme.colors.textPrimary,
+      fontWeight: "800",
+      fontSize: 16,
+    },
+    kpiLabel: {
+      color: theme.colors.textSecondary,
+      marginTop: 4,
+      fontSize: 11,
+    },
+    card: {
+      marginTop: 20,
+      borderRadius: 20,
+      borderWidth: 1,
+      borderColor: theme.colors.border,
+      backgroundColor: theme.colors.card,
+      padding: 16,
+    },
+    sectionTitle: {
+      color: theme.colors.textPrimary,
+      fontSize: 16,
+      fontWeight: "700",
+    },
+    sectionSubtitle: {
+      color: theme.colors.textSecondary,
+      fontSize: 12,
+      marginTop: 4,
+      marginBottom: 12,
+    },
+    loader: {
+      marginVertical: 16,
+    },
+    userList: {
+      marginBottom: 6,
+    },
+    userChip: {
+      borderRadius: 14,
+      borderWidth: 1,
+      borderColor: theme.colors.border,
+      backgroundColor: theme.colors.cardMuted,
+      padding: 12,
+      marginBottom: 10,
+    },
+    userChipActive: {
+      borderColor: theme.colors.accentSecondary,
+      backgroundColor: theme.mode === "dark" ? "rgba(32, 57, 90, 0.92)" : "#dbe9ff",
+    },
+    userChipTopRow: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+    },
+    userChipName: {
+      color: theme.colors.textPrimary,
+      fontWeight: "700",
+      fontSize: 15,
+    },
+    userChipNameActive: {
+      color: theme.colors.chipText,
+    },
+    userChipRole: {
+      fontSize: 11,
+      color: theme.colors.textSecondary,
+      backgroundColor: theme.colors.chipBg,
+      borderRadius: 999,
+      paddingVertical: 3,
+      paddingHorizontal: 8,
+    },
+    userChipMeta: {
+      color: theme.colors.textSecondary,
+      marginTop: 8,
+      fontSize: 12,
+    },
+    formBlock: {
+      marginTop: 12,
+    },
+    loginButton: {
+      marginTop: 6,
+      borderRadius: 12,
+      overflow: "hidden",
+    },
+    loginButtonGradient: {
+      alignItems: "center",
+      justifyContent: "center",
+      paddingVertical: 13,
+    },
+    loginButtonDisabled: {
+      opacity: 0.65,
+    },
+    loginButtonText: {
+      color: "#f4f9ff",
+      fontSize: 15,
+      fontWeight: "800",
+      letterSpacing: 0.4,
+    },
+    error: {
+      marginTop: 10,
+      color: theme.colors.danger,
+      fontWeight: "700",
+      fontSize: 13,
+    },
+  });
+}

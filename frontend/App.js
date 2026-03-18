@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
+import { NavigationContainer } from "@react-navigation/native";
 
-import DemoDashboardScreen from "./src/screens/DemoDashboardScreen";
+import AppTabs from "./src/navigation/AppTabs";
 import LoginScreen from "./src/screens/LoginScreen";
 import { fetchDemoUsers, loginDemoUser } from "./src/services/authService";
+import { ThemeProvider, useAppTheme } from "./src/theme/ThemeContext";
 
-export default function App() {
+function RootApp() {
   const [demoUsers, setDemoUsers] = useState([]);
   const [session, setSession] = useState(null);
   const [loadingUsers, setLoadingUsers] = useState(true);
   const [authLoading, setAuthLoading] = useState(false);
   const [error, setError] = useState("");
+  const { theme } = useAppTheme();
 
   useEffect(() => {
     let mounted = true;
@@ -72,23 +75,71 @@ export default function App() {
 
   if (!session) {
     return (
-      <LoginScreen
-        demoUsers={demoUsers}
-        loadingUsers={loadingUsers}
-        authLoading={authLoading}
-        error={error}
-        onLogin={onLogin}
-      />
+      <NavigationContainer
+        theme={{
+          dark: theme.mode === "dark",
+          colors: {
+            primary: theme.colors.accent,
+            background: theme.colors.background,
+            card: theme.colors.card,
+            text: theme.colors.textPrimary,
+            border: theme.colors.border,
+            notification: theme.colors.accentSecondary,
+          },
+          fonts: {
+            regular: { fontFamily: "System", fontWeight: "400" },
+            medium: { fontFamily: "System", fontWeight: "500" },
+            bold: { fontFamily: "System", fontWeight: "700" },
+            heavy: { fontFamily: "System", fontWeight: "800" },
+          },
+        }}
+      >
+        <LoginScreen
+          demoUsers={demoUsers}
+          loadingUsers={loadingUsers}
+          authLoading={authLoading}
+          error={error}
+          onLogin={onLogin}
+        />
+      </NavigationContainer>
     );
   }
 
   return (
-    <DemoDashboardScreen
-      session={session}
-      demoUsers={demoUsers}
-      switchLoading={authLoading}
-      onQuickSwitch={onQuickSwitch}
-      onLogout={onLogout}
-    />
+    <NavigationContainer
+      theme={{
+        dark: theme.mode === "dark",
+        colors: {
+          primary: theme.colors.accent,
+          background: theme.colors.background,
+          card: theme.colors.card,
+          text: theme.colors.textPrimary,
+          border: theme.colors.border,
+          notification: theme.colors.accentSecondary,
+        },
+        fonts: {
+          regular: { fontFamily: "System", fontWeight: "400" },
+          medium: { fontFamily: "System", fontWeight: "500" },
+          bold: { fontFamily: "System", fontWeight: "700" },
+          heavy: { fontFamily: "System", fontWeight: "800" },
+        },
+      }}
+    >
+      <AppTabs
+        session={session}
+        demoUsers={demoUsers}
+        switchLoading={authLoading}
+        onQuickSwitch={onQuickSwitch}
+        onLogout={onLogout}
+      />
+    </NavigationContainer>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <RootApp />
+    </ThemeProvider>
   );
 }
