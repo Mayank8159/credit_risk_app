@@ -5,7 +5,9 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
+    "icon": "./assets/applogo1.png",
     "splash": {
+      "image": "./assets/applogo1.png",
       "resizeMode": "contain",
       "backgroundColor": "#0b1f2a"
     },
@@ -17,11 +19,13 @@
     },
     "android": {
       "adaptiveIcon": {
+        "foregroundImage": "./assets/applogo1.png",
         "backgroundColor": "#0b1f2a"
       }
     },
     "web": {
-      "bundler": "metro"
+      "bundler": "metro",
+      "favicon": "./assets/applogo1.png"
     },
     "plugins": [
       "expo-asset"

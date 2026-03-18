@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
+import { LinearGradient } from "expo-linear-gradient";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StyleSheet, View, Animated } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import DemoDashboardScreen from "../screens/DemoDashboardScreen";
 import InsightsScreen from "../screens/InsightsScreen";
-import MessagesScreen from "../screens/MessagesScreen";
+import CardsScreen from "../screens/CardsScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import { useAppTheme } from "../theme/ThemeContext";
 
@@ -20,8 +21,8 @@ function getTabIconName(routeName, focused) {
   if (routeName === "Insights") {
     return focused ? "bar-chart" : "bar-chart-outline";
   }
-  if (routeName === "Messages") {
-    return focused ? "chatbubbles" : "chatbubbles-outline";
+  if (routeName === "Cards") {
+    return focused ? "card" : "card-outline";
   }
   return focused ? "settings" : "settings-outline";
 }
@@ -76,12 +77,9 @@ export default function AppTabs({
 }) {
   const { theme } = useAppTheme();
   const insets = useSafeAreaInsets();
-  const floatingBottom = Math.max(insets.bottom, 10);
   const barHeight = 62 + Math.max(insets.bottom, 6);
-  const horizontalInset = Math.max(28, insets.left + 16, insets.right + 16);
   const badgeCounts = {
     insights: 2,
-    messages: 5,
   };
 
   return (
@@ -96,46 +94,62 @@ export default function AppTabs({
           borderTopColor: "transparent",
           borderTopWidth: 0,
           position: "absolute",
-          left: horizontalInset,
-          right: horizontalInset,
-          bottom: floatingBottom,
-          borderRadius: 32,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          borderTopLeftRadius: 28,
+          borderTopRightRadius: 28,
           height: barHeight,
-          paddingHorizontal: 8,
-          paddingTop: 8,
+          paddingHorizontal: 10,
+          paddingTop: 6,
           paddingBottom: Math.max(insets.bottom, 10),
           overflow: "hidden",
           shadowColor: theme.mode === "dark" ? "#000000" : "#1e6fd9",
           shadowOffset: {
             width: 0,
-            height: theme.mode === "dark" ? 10 : 6,
+            height: theme.mode === "dark" ? 12 : 8,
           },
-          shadowOpacity: theme.mode === "dark" ? 0.3 : 0.12,
-          shadowRadius: theme.mode === "dark" ? 18 : 10,
-          elevation: theme.mode === "dark" ? 11 : 6,
+          shadowOpacity: theme.mode === "dark" ? 0.35 : 0.14,
+          shadowRadius: theme.mode === "dark" ? 20 : 12,
+          elevation: theme.mode === "dark" ? 12 : 7,
         },
         tabBarActiveTintColor: theme.colors.tabActive,
         tabBarInactiveTintColor: theme.colors.tabInactive,
         tabBarLabelStyle: {
           fontSize: 11,
-          fontWeight: "700",
+          fontWeight: "900",
           marginTop: 2,
+          letterSpacing: 0.7,
+          textTransform: "uppercase",
         },
         tabBarItemStyle: {
-          borderRadius: 18,
-          marginHorizontal: 2,
-          marginTop: 3,
-          marginBottom: 3,
+          borderRadius: 20,
+          marginHorizontal: 3,
+          marginTop: 4,
+          marginBottom: 4,
           overflow: "hidden",
         },
         tabBarActiveBackgroundColor:
-          theme.mode === "dark" ? "rgba(78, 123, 255, 0.26)" : "rgba(47, 125, 255, 0.2)",
+          theme.mode === "dark"
+            ? "rgba(128, 176, 255, 0.26)"
+            : "rgba(255, 255, 255, 0.35)",
+        tabBarInactiveBackgroundColor: "transparent",
         tabBarHideOnKeyboard: true,
         tabBarBackground: () => (
           <View style={styles.tabBackgroundShell}>
             <BlurView
               tint={theme.mode === "dark" ? "dark" : "light"}
-              intensity={theme.mode === "dark" ? 58 : 72}
+              intensity={theme.mode === "dark" ? 74 : 88}
+              style={StyleSheet.absoluteFill}
+            />
+            <LinearGradient
+              colors={
+                theme.mode === "dark"
+                  ? ["rgba(125,170,255,0.18)", "rgba(25,42,74,0.34)"]
+                  : ["rgba(255,255,255,0.64)", "rgba(198,223,255,0.28)"]
+              }
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
               style={StyleSheet.absoluteFill}
             />
             <View
@@ -144,11 +158,24 @@ export default function AppTabs({
                 {
                   backgroundColor:
                     theme.mode === "dark"
-                      ? "rgba(12, 23, 40, 0.74)"
-                      : "rgba(255, 255, 255, 0.72)",
-                  borderColor: theme.colors.border,
+                      ? "rgba(8, 14, 26, 0.54)"
+                      : "rgba(255, 255, 255, 0.42)",
+                  borderColor: theme.mode === "dark"
+                    ? "rgba(218,232,255,0.20)"
+                    : "rgba(255, 255, 255, 0.72)",
                 },
               ]}
+            />
+            <LinearGradient
+              pointerEvents="none"
+              colors={
+                theme.mode === "dark"
+                  ? ["rgba(255,255,255,0.24)", "rgba(255,255,255,0.00)"]
+                  : ["rgba(255,255,255,0.88)", "rgba(255,255,255,0.00)"]
+              }
+              start={{ x: 0.5, y: 0 }}
+              end={{ x: 0.5, y: 1 }}
+              style={styles.topSheen}
             />
           </View>
         ),
@@ -180,25 +207,19 @@ export default function AppTabs({
           tabBarBadgeStyle: {
             backgroundColor: theme.colors.accentSecondary,
             color: "#001327",
-            fontWeight: "800",
+            fontWeight: "900",
+            fontSize: 10,
+            borderRadius: 10,
+            paddingHorizontal: 5,
+            paddingVertical: 2,
+            minWidth: 20,
+            textAlign: "center",
           },
         }}
       >
         {() => <InsightsScreen session={session} />}
       </Tab.Screen>
-      <Tab.Screen
-        name="Messages"
-        options={{
-          tabBarBadge: badgeCounts.messages,
-          tabBarBadgeStyle: {
-            backgroundColor: theme.colors.danger,
-            color: "#fff",
-            fontWeight: "800",
-          },
-        }}
-      >
-        {() => <MessagesScreen />}
-      </Tab.Screen>
+      <Tab.Screen name="Cards">{() => <CardsScreen session={session} />}</Tab.Screen>
       <Tab.Screen name="Settings">{() => <SettingsScreen onLogout={onLogout} />}</Tab.Screen>
     </Tab.Navigator>
   );
@@ -207,12 +228,21 @@ export default function AppTabs({
 const styles = StyleSheet.create({
   tabBackgroundShell: {
     flex: 1,
-    borderRadius: 32,
+    borderTopLeftRadius: 28,
+    borderTopRightRadius: 28,
     overflow: "hidden",
   },
   tabOverlay: {
     ...StyleSheet.absoluteFillObject,
-    borderRadius: 32,
+    borderTopLeftRadius: 28,
+    borderTopRightRadius: 28,
     borderWidth: 1,
+  },
+  topSheen: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 20,
   },
 });
