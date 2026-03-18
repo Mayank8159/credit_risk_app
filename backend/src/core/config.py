@@ -15,6 +15,18 @@ def _as_bool(value: str, *, default: bool) -> bool:
 	return default
 
 
+def _resolve_project_path(raw_value: str, *, base_dir: Path) -> Path:
+	raw_path = Path(raw_value)
+	if raw_path.is_absolute():
+		return raw_path
+
+	# Support both "backend/..." and "..." forms across Render rootDir setups.
+	if raw_path.parts and raw_path.parts[0] == "backend":
+		raw_path = Path(*raw_path.parts[1:]) if len(raw_path.parts) > 1 else Path(".")
+
+	return (base_dir / raw_path).resolve()
+
+
 @dataclass(frozen=True)
 class Settings:
 	base_dir: Path
@@ -58,8 +70,8 @@ def get_settings() -> Settings:
 		base_dir=base_dir,
 		app_env=os.getenv("APP_ENV", "development"),
 		api_v1_prefix=os.getenv("API_V1_PREFIX", "/api/v1"),
-		dataset_path=Path(dataset_path_raw),
-		model_path=Path(model_path_raw),
+		dataset_path=_resolve_project_path(dataset_path_raw, base_dir=base_dir),
+		model_path=_resolve_project_path(model_path_raw, base_dir=base_dir),
 		model_autoload=_as_bool(os.getenv("MODEL_AUTOLOAD", "true"), default=True),
 		cors_allow_origins=origins if origins else ["*"],
 		cors_allow_credentials=_as_bool(
