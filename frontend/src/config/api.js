@@ -2,7 +2,7 @@ import { Platform } from "react-native";
 
 function getDefaultBaseUrl() {
   if (Platform.OS === "android") {
-    return "https://credit-risk-api.onrender.com/api/v1";
+    return "https://credit-risk-app-t54o.onrender.com/api/v1";
   }
   return "http://localhost:8000/api/v1";
 }

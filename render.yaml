@@ -30,7 +30,6 @@ services:
     runtime: python
     schedule: "*/1 * * * *"
     buildCommand: pip install requests
-    startCommand: python -c "import os,requests; requests.get(os.getenv('KEEP_WARM_URL','https://credit-risk-api.onrender.com/health'), timeout=20)"
     envVars:
       - key: KEEP_WARM_URL
-        value: https://credit-risk-api.onrender.com/health
+        value: https://credit-risk-app-t54o.onrender.com/health
