@@ -25,6 +25,9 @@ export default function RiskResultCard({ title, result }) {
     return null;
   }
 
+  const totalAssets =
+    result?.portfolio_risk?.total_assets_inr ?? result?.portfolio_risk?.total_assets_usd ?? 0;
+
   return (
     <LinearGradient
       colors={[theme.colors.card, theme.colors.cardMuted]}
@@ -65,7 +68,7 @@ export default function RiskResultCard({ title, result }) {
       ))}
 
       <Text style={styles.portfolioText}>
-        Portfolio Exposure ₹{result.portfolio_risk.total_assets_inr.toLocaleString('en-IN')} | NPC {result.portfolio_risk.npc_rate_percent}%
+        Portfolio Exposure ₹{Number(totalAssets).toLocaleString("en-IN")} | NPC {result.portfolio_risk.npc_rate_percent}%
       </Text>
     </LinearGradient>
   );

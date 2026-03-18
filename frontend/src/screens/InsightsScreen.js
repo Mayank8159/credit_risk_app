@@ -44,6 +44,7 @@ export default function InsightsScreen({ session }) {
   const preview = session?.dashboard_preview;
   const riskScore = preview?.risk_score ?? 0;
   const utilization = preview?.utilization_rate ?? 0;
+  const totalAssets = preview?.portfolio_risk?.total_assets_inr ?? preview?.portfolio_risk?.total_assets_usd ?? 0;
   const trendSeries = buildTrendSeries(riskScore);
   const trendMax = Math.max(...trendSeries, 1);
   const impactMix = mapImpactMix(preview?.risk_factors);
@@ -104,7 +105,7 @@ export default function InsightsScreen({ session }) {
             <Text style={styles.gaugeLabel}>100%</Text>
           </View>
           <Text style={styles.cardNote}>
-            Portfolio ₹{preview?.portfolio_risk?.total_assets_inr?.toLocaleString?.('en-IN') ?? "0"} | NPC {preview?.portfolio_risk?.npc_rate_percent ?? "-"}%
+            Portfolio ₹{Number(totalAssets).toLocaleString("en-IN")} | NPC {preview?.portfolio_risk?.npc_rate_percent ?? "-"}%
           </Text>
         </View>
 
