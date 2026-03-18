@@ -17,7 +17,7 @@ services:
       - key: DATASET_PATH
         value: backend/datasets/credit_risk_dataset.csv
       - key: CORS_ALLOW_ORIGINS
-        value: https://your-expo-web-domain.com,http://localhost:19006,http://127.0.0.1:19006
+        value: "*"
       - key: ENABLE_KEEP_WARM_TIMER
         value: "true"
       - key: KEEP_WARM_INTERVAL_SECONDS
