@@ -34,7 +34,11 @@ def create_app() -> FastAPI:
         keep_warm_task: asyncio.Task[None] | None = None
 
         if settings.model_autoload:
-            inference_service.load_model()
+            try:
+                inference_service.load_model()
+            except FileNotFoundError:
+                # Fresh deployments may not include the model artifact; train it once.
+                inference_service.train_and_persist_from_dataset()
         risk.configure_inference_service(inference_service)
 
         if settings.enable_keep_warm_timer and settings.keep_warm_url:

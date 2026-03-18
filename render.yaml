@@ -14,9 +14,9 @@ services:
       - key: MODEL_AUTOLOAD
         value: "true"
       - key: MODEL_PATH
-        value: backend/models/credit_risk_model.joblib
+        value: models/credit_risk_model.joblib
       - key: DATASET_PATH
-        value: backend/datasets/credit_risk_dataset.csv
+        value: datasets/credit_risk_dataset.csv
       - key: CORS_ALLOW_ORIGINS
         value: "*"
       - key: ENABLE_KEEP_WARM_TIMER
