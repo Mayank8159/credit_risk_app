@@ -88,8 +88,9 @@ class WhatIfScenario(BaseModel):
     """Represents a single hypothetical what-if scenario."""
 
     factor_name: str = Field(..., description="Name of factor being changed")
-    original_value: float
-    hypothetical_value: float
+    # Can be numeric (e.g., debt ratio) or categorical (e.g., loan grade A-G).
+    original_value: float | str
+    hypothetical_value: float | str
     impact_description: str = Field(..., description="Human-readable impact explanation")
 
 
