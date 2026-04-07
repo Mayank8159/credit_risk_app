@@ -27,6 +27,28 @@ def _resolve_project_path(raw_value: str, *, base_dir: Path) -> Path:
 	return (base_dir / raw_path).resolve()
 
 
+def _load_dotenv_candidates(base_dir: Path) -> None:
+	"""Load simple KEY=VALUE pairs from common .env locations if present."""
+	candidates = [
+		base_dir / ".env",
+		base_dir.parent / ".env",
+	]
+
+	for env_path in candidates:
+		if not env_path.exists() or not env_path.is_file():
+			continue
+
+		for line in env_path.read_text(encoding="utf-8").splitlines():
+			line = line.strip()
+			if not line or line.startswith("#") or "=" not in line:
+				continue
+			key, value = line.split("=", 1)
+			key = key.strip()
+			value = value.strip().strip('"').strip("'")
+			if key:
+				os.environ.setdefault(key, value)
+
+
 @dataclass(frozen=True)
 class Settings:
 	base_dir: Path
@@ -42,11 +64,13 @@ class Settings:
 	enable_keep_warm_timer: bool
 	keep_warm_interval_seconds: int
 	keep_warm_url: str | None
+	google_api_key: str | None
 
 
 @lru_cache(maxsize=1)
 def get_settings() -> Settings:
 	base_dir = Path(__file__).resolve().parents[2]
+	_load_dotenv_candidates(base_dir)
 
 	dataset_path_raw = os.getenv(
 		"DATASET_PATH", str(base_dir / "datasets" / "credit_risk_dataset.csv")
@@ -86,4 +110,5 @@ def get_settings() -> Settings:
 			10, int(os.getenv("KEEP_WARM_INTERVAL_SECONDS", "50"))
 		),
 		keep_warm_url=(os.getenv("KEEP_WARM_URL") or "").strip() or None,
+		google_api_key=(os.getenv("GOOGLE_API_KEY") or "").strip() or None,
 	)

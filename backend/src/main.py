@@ -6,9 +6,11 @@ import httpx
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .api.v1 import auth, risk
+from .api.v1 import auth, credit_coach, risk
 from .core.config import get_settings
 from .models.inference import CreditRiskInferenceService
+from .services.credit_coach_service import CreditCoachService
+from .services.counterfactual_service import CounterfactualService
 
 def create_app() -> FastAPI:
     settings = get_settings()
@@ -17,6 +19,10 @@ def create_app() -> FastAPI:
         model_path=settings.model_path,
         dataset_path=settings.dataset_path,
     )
+
+    # Initialize AI Credit Coach services
+    coach_service = CreditCoachService()
+    counterfactual_service = CounterfactualService()
 
     async def keep_warm_loop(url: str, interval_seconds: int) -> None:
         timeout = httpx.Timeout(10.0, connect=5.0)
@@ -74,6 +80,10 @@ def create_app() -> FastAPI:
 
     app.include_router(auth.router, prefix=settings.api_v1_prefix)
     app.include_router(risk.router, prefix=settings.api_v1_prefix)
+
+    # Configure and include credit coach router
+    credit_coach.configure_services(coach_service, counterfactual_service)
+    app.include_router(credit_coach.router, prefix=settings.api_v1_prefix)
 
     @app.get("/health")
     def health() -> dict[str, str]:
