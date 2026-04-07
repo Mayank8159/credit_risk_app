@@ -182,6 +182,8 @@ export default function WhatIfSimulator({ riskResult }) {
       console.error("What-if simulation failed:", debugMessage);
       if (debugMessage.toLowerCase().includes("not found") || debugMessage.includes("404")) {
         setError("Simulation service endpoint is unavailable. Please verify backend deployment URL and try again.");
+      } else if (debugMessage.toLowerCase().includes("unable to run what-if simulation right now")) {
+        setError("Unable to run simulation right now. Please adjust the scenario and try again.");
       } else {
         setError(`Unable to run simulation right now. ${debugMessage}`);
       }
