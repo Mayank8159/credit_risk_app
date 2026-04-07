@@ -1,10 +1,7 @@
-import { Platform } from "react-native";
-
 function getDefaultBaseUrl() {
-  if (Platform.OS === "android") {
-    return "https://credit-risk-app-t54o.onrender.com/api/v1";
-  }
-  return "http://localhost:8000/api/v1";
+  // Safe production fallback for APK/demo builds.
+  // For local development, override via EXPO_PUBLIC_API_BASE_URL.
+  return "https://credit-risk-app-t54o.onrender.com/api/v1";
 }
 
 export const API_BASE_URL =

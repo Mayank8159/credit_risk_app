@@ -12,6 +12,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import RiskResultCard from "../components/RiskResultCard";
+import CoachPanel from "../components/credit-coach/CoachPanel";
 import { USER_SCENARIO_PAYLOADS } from "../constants/riskPayloads";
 import { analyzeRisk } from "../services/riskService";
 import { useAppTheme } from "../theme/ThemeContext";
@@ -265,6 +266,11 @@ export default function DemoDashboardScreen({
             title={liveAnalysis ? "Live Output" : "Preview Output"}
             result={visibleResult}
           />
+
+          {/* AI Credit Coach Panel - shown when analysis is available */}
+          {visibleResult && (
+            <CoachPanel riskResult={visibleResult} />
+          )}
         </Animated.View>
       </ScrollView>
     </SafeAreaView>
