@@ -48,7 +48,7 @@ def test_analyze_endpoint_returns_dashboard_compatible_response() -> None:
     app.dependency_overrides.clear()
 
     assert response.status_code == 200
-    body = response.json()
+    body = response.json()["data"]
 
     assert body["risk_score"] == 82
     assert body["risk_grade"] == "High"

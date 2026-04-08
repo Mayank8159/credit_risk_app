@@ -1,11 +1,19 @@
+import logging
+
 from fastapi import APIRouter, Depends, HTTPException
 
 from ...models.inference import CreditRiskInferenceService
-from ...schemas.risk import RiskAnalyzeRequest, RiskAnalyzeResponse, RiskFactor
+from ...schemas.risk import (
+    RiskAnalyzeApiResponse,
+    RiskAnalyzeRequest,
+    RiskAnalyzeResponse,
+    RiskFactor,
+)
 from ...services.portfolio import MockPortfolioRiskRepository
 
 router = APIRouter(prefix="/risk", tags=["risk-analysis"])
 _inference_service: CreditRiskInferenceService | None = None
+logger = logging.getLogger(__name__)
 
 
 def configure_inference_service(service: CreditRiskInferenceService) -> None:
@@ -91,26 +99,29 @@ def _grade_from_score(score: int) -> str:
     return "High"
 
 
-@router.post("/analyze", response_model=RiskAnalyzeResponse)
+@router.post("/analyze", response_model=RiskAnalyzeApiResponse)
 def analyze_credit_risk(
     payload: RiskAnalyzeRequest,
     inference_service: CreditRiskInferenceService = Depends(get_inference_service),
     portfolio_repository: MockPortfolioRiskRepository = Depends(get_portfolio_repository),
-) -> RiskAnalyzeResponse:
+) -> RiskAnalyzeApiResponse:
     try:
         probability = inference_service.predict_default_probability(
             feature_payload=payload.model_dump()
         )
+        risk_score = int(round(probability * 100))
+        utilization_rate = round((payload.loan_amnt / payload.person_income) * 100, 2)
+
+        response = RiskAnalyzeResponse(
+            risk_score=risk_score,
+            risk_grade=_grade_from_score(risk_score),
+            utilization_rate=utilization_rate,
+            risk_factors=_build_risk_factors(payload),
+            portfolio_risk=portfolio_repository.get_portfolio_risk_snapshot(),
+        )
+        return RiskAnalyzeApiResponse(success=True, data=response.model_dump())
+    except HTTPException:
+        raise
     except Exception as exc:  # pragma: no cover
+        logger.exception("Risk analysis failed")
         raise HTTPException(status_code=500, detail=str(exc)) from exc
-
-    risk_score = int(round(probability * 100))
-    utilization_rate = round((payload.loan_amnt / payload.person_income) * 100, 2)
-
-    return RiskAnalyzeResponse(
-        risk_score=risk_score,
-        risk_grade=_grade_from_score(risk_score),
-        utilization_rate=utilization_rate,
-        risk_factors=_build_risk_factors(payload),
-        portfolio_risk=portfolio_repository.get_portfolio_risk_snapshot(),
-    )

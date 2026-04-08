@@ -11,8 +11,10 @@ import logging
 from fastapi import APIRouter, HTTPException
 
 from ...schemas.credit_coach import (
+    CoachChatApiResponse,
     CoachChatRequest,
     CoachChatResponse,
+    WhatIfApiResponse,
     WhatIfRequest,
     WhatIfResponse,
 )
@@ -51,10 +53,10 @@ def get_counterfactual_service() -> CounterfactualService:
     return _counterfactual_service
 
 
-@router.post("/chat", response_model=CoachChatResponse)
+@router.post("/chat", response_model=CoachChatApiResponse)
 def chat_with_coach(
     request: CoachChatRequest,
-) -> CoachChatResponse:
+) -> CoachChatApiResponse:
     """
     Chat endpoint for conversational credit guidance.
 
@@ -88,13 +90,14 @@ def chat_with_coach(
             top_positive_factors=request.top_positive_factors or None,
         )
 
-        return CoachChatResponse(
+        response = CoachChatResponse(
             answer=result["answer"],
             intent_detected=result["intent_detected"],
             top_negative_factors=result["top_negative_factors"],
             top_positive_factors=result["top_positive_factors"],
             recommendations=result["recommendations"],
         )
+        return CoachChatApiResponse(success=True, data=response.model_dump())
 
     except Exception as exc:
         logger.exception("Credit coach chat failed")
@@ -107,10 +110,10 @@ def chat_with_coach(
         ) from exc
 
 
-@router.post("/what-if", response_model=WhatIfResponse)
+@router.post("/what-if", response_model=WhatIfApiResponse)
 def simulate_what_if(
     request: WhatIfRequest,
-) -> WhatIfResponse:
+) -> WhatIfApiResponse:
     """
     What-If simulator endpoint for counterfactual analysis.
 
@@ -147,7 +150,7 @@ def simulate_what_if(
             hypothetical_loan_int_rate=request.hypothetical_loan_int_rate,
         )
 
-        return WhatIfResponse(
+        response = WhatIfResponse(
             original_risk_score=result["original_risk_score"],
             original_risk_grade=result["original_risk_grade"],
             estimated_risk_score=result["estimated_risk_score"],
@@ -159,6 +162,7 @@ def simulate_what_if(
             impact_summary=result["impact_summary"],
             recommendations=result["recommendations"],
         )
+        return WhatIfApiResponse(success=True, data=response.model_dump())
 
     except Exception as exc:
         logger.exception("Credit coach what-if simulation failed")

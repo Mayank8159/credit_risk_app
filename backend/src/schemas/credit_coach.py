@@ -158,3 +158,13 @@ class FactorContribution(BaseModel):
     contribution: Literal["negative", "neutral", "positive"]
     magnitude: Literal["low", "medium", "high"]
     explanation: str
+
+
+class CoachChatApiResponse(BaseModel):
+    success: bool = True
+    data: dict
+
+
+class WhatIfApiResponse(BaseModel):
+    success: bool = True
+    data: dict

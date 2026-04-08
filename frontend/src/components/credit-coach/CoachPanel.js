@@ -74,7 +74,7 @@ export default function CoachPanel({ riskResult }) {
                 activeTab === "assistant" && styles.tabTextActive,
               ]}
             >
-              💬 Assistant
+              Assistant
             </Text>
           </Pressable>
           <Pressable
@@ -87,7 +87,7 @@ export default function CoachPanel({ riskResult }) {
                 activeTab === "simulator" && styles.tabTextActive,
               ]}
             >
-              📊 What-If
+              What-If
             </Text>
           </Pressable>
         </View>
@@ -131,7 +131,7 @@ export default function CoachPanel({ riskResult }) {
       {/* Footer Info */}
       <View style={[styles.footerInfo, { backgroundColor: theme.colors.cardMuted }]}>
         <Text style={styles.footerText}>
-          💡 Tip: Use the Assistant to understand your score, then explore improvements with What-If
+          Tip: Use Assistant to understand your score, then explore improvements with What-If.
         </Text>
       </View>
     </View>

@@ -56,6 +56,7 @@ class Settings:
 	api_v1_prefix: str
 	dataset_path: Path
 	model_path: Path
+	loan_db_path: Path
 	model_autoload: bool
 	cors_allow_origins: list[str]
 	cors_allow_credentials: bool
@@ -78,6 +79,9 @@ def get_settings() -> Settings:
 	model_path_raw = os.getenv(
 		"MODEL_PATH", str(base_dir / "models" / "credit_risk_model.joblib")
 	)
+	loan_db_path_raw = os.getenv(
+		"LOAN_DB_PATH", str(base_dir / "models" / "loan_applications.db")
+	)
 
 	origins_raw = os.getenv(
 		"CORS_ALLOW_ORIGINS",
@@ -96,6 +100,7 @@ def get_settings() -> Settings:
 		api_v1_prefix=os.getenv("API_V1_PREFIX", "/api/v1"),
 		dataset_path=_resolve_project_path(dataset_path_raw, base_dir=base_dir),
 		model_path=_resolve_project_path(model_path_raw, base_dir=base_dir),
+		loan_db_path=_resolve_project_path(loan_db_path_raw, base_dir=base_dir),
 		model_autoload=_as_bool(os.getenv("MODEL_AUTOLOAD", "true"), default=True),
 		cors_allow_origins=origins if origins else ["*"],
 		cors_allow_credentials=_as_bool(
