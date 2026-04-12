@@ -1,1 +1,4 @@
-web: uvicorn asgi:app --host 0.0.0.0 --port $PORT
+# This file is for Heroku compatibility only.
+# Render uses render.yaml as the source of truth.
+# Command: uvicorn src.main:app --host 0.0.0.0 --port $PORT
+web: uvicorn src.main:app --host 0.0.0.0 --port $PORT

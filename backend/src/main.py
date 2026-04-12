@@ -69,9 +69,21 @@ def create_app() -> FastAPI:
         if settings.model_autoload:
             try:
                 inference_service.load_model()
-            except FileNotFoundError:
+            except (FileNotFoundError, Exception) as exc:
                 # Fresh deployments may not include the model artifact; train it once.
-                inference_service.train_and_persist_from_dataset()
+                # Also handle pickle/version compatibility errors gracefully.
+                logger.warning(
+                    "Model autoload failed (%s: %s), will train fresh model",
+                    type(exc).__name__,
+                    str(exc)[:80]
+                )
+                try:
+                    inference_service.train_and_persist_from_dataset()
+                except Exception as train_exc:  # pragma: no cover
+                    logger.error(
+                        "Model training also failed (%s), proceeding without model",
+                        str(train_exc)[:80]
+                    )
 
         loan_repository.initialize()
         risk.configure_inference_service(inference_service)
