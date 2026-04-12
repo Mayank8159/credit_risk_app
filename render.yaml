@@ -24,7 +24,7 @@ services:
       - key: KEEP_WARM_INTERVAL_SECONDS
         value: "50"
       - key: KEEP_WARM_URL
-        value: https://prism-credit-backend.onrender.com/health
+        value: https://prism-credit-backend-new.onrender.com/health
 
   - type: cron
     name: credit-risk-keepalive
@@ -33,4 +33,4 @@ services:
     buildCommand: pip install requests
     envVars:
       - key: KEEP_WARM_URL
-        value: https://prism-credit-backend.onrender.com/health
+        value: https://prism-credit-backend-new.onrender.com/health
