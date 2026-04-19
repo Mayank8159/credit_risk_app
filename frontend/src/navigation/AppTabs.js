@@ -9,6 +9,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import DemoDashboardScreen from "../screens/DemoDashboardScreen";
 import InsightsScreen from "../screens/InsightsScreen";
 import CardsScreen from "../screens/CardsScreen";
+import LoanEligibilityScreen from "../screens/LoanEligibilityScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import { useAppTheme } from "../theme/ThemeContext";
 
@@ -23,6 +24,9 @@ function getTabIconName(routeName, focused) {
   }
   if (routeName === "Cards") {
     return focused ? "card" : "card-outline";
+  }
+  if (routeName === "Loan") {
+    return focused ? "calculator" : "calculator-outline";
   }
   return focused ? "settings" : "settings-outline";
 }
@@ -220,6 +224,7 @@ export default function AppTabs({
         {() => <InsightsScreen session={session} />}
       </Tab.Screen>
       <Tab.Screen name="Cards">{() => <CardsScreen session={session} />}</Tab.Screen>
+      <Tab.Screen name="Loan">{() => <LoanEligibilityScreen />}</Tab.Screen>
       <Tab.Screen name="Settings">{() => <SettingsScreen onLogout={onLogout} />}</Tab.Screen>
     </Tab.Navigator>
   );
