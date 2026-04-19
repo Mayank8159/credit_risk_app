@@ -24,10 +24,6 @@
       },
       "package": "com.mayank8159.creditriskapp"
     },
-    "web": {
-      "bundler": "metro",
-      "favicon": "./assets/applogo1.png"
-    },
     "plugins": [
       "expo-asset"
     ],
