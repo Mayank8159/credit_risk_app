@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "PRISM CREDIT",
+    "owner": "mayank8159",
     "slug": "prism-credit-bo7ana57rwabesyreloz5",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -31,11 +32,6 @@
     },
     "plugins": [
       "expo-asset"
-    ],
-    "extra": {
-      "eas": {
-        "projectId": "0a44ab69-bb8d-4150-a8c3-0f6c69fd9c95"
-      }
-    }
+    ]
   }
 }
