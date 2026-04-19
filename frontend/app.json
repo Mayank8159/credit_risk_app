@@ -28,10 +28,16 @@
         "foregroundImage": "./assets/applogo1.png",
         "backgroundColor": "#4A90E2"
       },
-      "package": "com.mayank8159.creditriskapp"
+      "package": "com.mayank8159.creditriskapp",
+      "versionCode": 1
     },
     "plugins": [
       "expo-asset"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "0a44ab69-bb8d-4150-a8c3-0f6c69fd9c95"
+      }
+    }
   }
 }
