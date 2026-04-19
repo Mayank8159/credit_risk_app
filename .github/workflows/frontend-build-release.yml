@@ -43,6 +43,17 @@ jobs:
           fi
           echo "EXPO_TOKEN is configured."
 
+      - name: Validate EXPO_PROJECT_ID
+        shell: bash
+        env:
+          EXPO_PROJECT_ID: ${{ secrets.EXPO_PROJECT_ID }}
+        run: |
+          if [ -z "$EXPO_PROJECT_ID" ]; then
+            echo "::error::Missing EXPO_PROJECT_ID secret. Add your EAS project id in Settings > Secrets and variables > Actions > New repository secret."
+            exit 1
+          fi
+          echo "EXPO_PROJECT_ID is configured."
+
   build-frontend:
     name: Build Frontend
     runs-on: ubuntu-latest
@@ -104,6 +115,14 @@ jobs:
         run: |
           which eas
           eas --version
+
+      - name: Configure EAS project for CI
+        working-directory: frontend
+        env:
+          EXPO_PROJECT_ID: ${{ secrets.EXPO_PROJECT_ID }}
+        run: |
+          node -e "const fs=require('fs');const p='app.json';const j=JSON.parse(fs.readFileSync(p,'utf8'));j.expo.extra=j.expo.extra||{};j.expo.extra.eas=j.expo.extra.eas||{};j.expo.extra.eas.projectId=process.env.EXPO_PROJECT_ID;fs.writeFileSync(p,JSON.stringify(j,null,2)+'\\n');"
+          echo "Configured EAS projectId in app.json for this CI run."
 
       - name: Build Android APK
         working-directory: frontend
