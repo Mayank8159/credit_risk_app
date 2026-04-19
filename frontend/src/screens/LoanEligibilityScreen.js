@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import {
   Pressable,
@@ -175,6 +175,120 @@ export default function LoanEligibilityScreen() {
 
   const visibleFactors = showAllFactors ? sortedFactors : sortedFactors.slice(0, 3);
 
+  function getLocalPredictionData() {
+    if (!category || !bank) {
+      return null;
+    }
+
+    const cibil = toNumber(form.cibilScore);
+    const salary = toNumber(form.monthlySalary);
+    const amount = toNumber(form.amountDemand);
+    const tenure = toNumber(form.tenureMonths);
+
+    if (cibil <= 0 || salary <= 0 || amount <= 0 || tenure <= 0) {
+      return null;
+    }
+
+    return calculateLoanPrediction({
+      cibilScore: cibil,
+      monthlySalary: salary,
+      amountDemand: amount,
+      tenureMonths: tenure,
+      annualInterestRate: bank.annualRate,
+      categoryWeight: category.riskWeight,
+      bankWeight: bank.policyWeight,
+    });
+  }
+
+  useEffect(() => {
+    const localPrediction = getLocalPredictionData();
+
+    if (!localPrediction) {
+      setResult(null);
+      setShowAllFactors(false);
+      return;
+    }
+
+    setResult((prev) => ({
+      ...localPrediction,
+      riskScore: typeof prev?.riskScore === "number" ? prev.riskScore : localPrediction.riskScore,
+      riskBand: prev?.riskBand || localPrediction.riskBand,
+      utilizationRate: Number(localPrediction.emiToSalaryRatio),
+      riskFactors: Array.isArray(prev?.riskFactors) ? prev.riskFactors : [],
+      dataSource: prev?.dataSource || "local",
+    }));
+  }, [
+    form.monthlySalary,
+    form.amountDemand,
+    form.tenureMonths,
+    form.selectedBank,
+    form.loanCategory,
+    form.cibilScore,
+    category,
+    bank,
+  ]);
+
+  useEffect(() => {
+    const salary = toNumber(form.monthlySalary);
+    const amount = toNumber(form.amountDemand);
+
+    if (!category || !bank || salary <= 0 || amount <= 0) {
+      return;
+    }
+
+    let cancelled = false;
+    const timeoutId = setTimeout(async () => {
+      try {
+        setApiLoading(true);
+        const payload = buildRiskAnalyzePayload(form, bank);
+        const liveResult = await analyzeRisk(payload);
+
+        if (cancelled) {
+          return;
+        }
+
+        setResult((prev) => {
+          if (!prev) {
+            return prev;
+          }
+
+          return {
+            ...prev,
+            riskScore: liveResult.risk_score,
+            riskBand: liveResult.risk_grade,
+            utilizationRate: liveResult.utilization_rate,
+            riskFactors: liveResult.risk_factors || [],
+            dataSource: "live",
+          };
+        });
+        setShowAllFactors(false);
+        setApiMessage("");
+      } catch (error) {
+        if (!cancelled) {
+          setApiMessage(error?.message || "Backend sync unavailable, keeping latest local values.");
+        }
+      } finally {
+        if (!cancelled) {
+          setApiLoading(false);
+        }
+      }
+    }, 600);
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timeoutId);
+    };
+  }, [
+    form.monthlySalary,
+    form.amountDemand,
+    form.tenureMonths,
+    form.selectedBank,
+    form.loanCategory,
+    form.cibilScore,
+    category,
+    bank,
+  ]);
+
   function setField(name, value) {
     setForm((prev) => ({ ...prev, [name]: value }));
   }
@@ -197,29 +311,15 @@ export default function LoanEligibilityScreen() {
       return;
     }
 
-    const localPrediction = calculateLoanPrediction({
-      cibilScore: toNumber(form.cibilScore),
-      monthlySalary: toNumber(form.monthlySalary),
-      amountDemand: toNumber(form.amountDemand),
-      tenureMonths: toNumber(form.tenureMonths),
-      annualInterestRate: bank.annualRate,
-      categoryWeight: category.riskWeight,
-      bankWeight: bank.policyWeight,
-    });
-
-    setResult({
-      ...localPrediction,
-      dataSource: "local",
-      utilizationRate: Number(localPrediction.emiToSalaryRatio),
-      riskFactors: [],
-    });
-    setShowAllFactors(false);
-    setApiMessage("");
-
     try {
       setApiLoading(true);
       const payload = buildRiskAnalyzePayload(form, bank);
       const liveResult = await analyzeRisk(payload);
+
+      const localPrediction = getLocalPredictionData();
+      if (!localPrediction) {
+        return;
+      }
 
       setResult({
         ...localPrediction,
