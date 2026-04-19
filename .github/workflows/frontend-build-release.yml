@@ -99,10 +99,16 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
+      - name: Verify EAS CLI
+        working-directory: frontend
+        run: |
+          which eas
+          eas --version
+
       - name: Build Android APK
         working-directory: frontend
         run: |
-          npx eas build --platform android --profile preview --non-interactive --wait --json > eas-android-apk.json
+          eas build --platform android --profile preview --non-interactive --wait --json > eas-android-apk.json
           APK_URL=$(node -e "const fs=require('fs');const d=JSON.parse(fs.readFileSync('eas-android-apk.json','utf8'));const item=Array.isArray(d)?d[0]:d;process.stdout.write(item?.artifacts?.buildUrl || '');")
           if [ -z "$APK_URL" ]; then
             echo "Could not find APK artifact URL from EAS output"
@@ -113,7 +119,7 @@ jobs:
       - name: Build Android AAB
         working-directory: frontend
         run: |
-          npx eas build --platform android --profile production --non-interactive --wait --json > eas-android-aab.json
+          eas build --platform android --profile production --non-interactive --wait --json > eas-android-aab.json
           AAB_URL=$(node -e "const fs=require('fs');const d=JSON.parse(fs.readFileSync('eas-android-aab.json','utf8'));const item=Array.isArray(d)?d[0]:d;process.stdout.write(item?.artifacts?.buildUrl || '');")
           if [ -z "$AAB_URL" ]; then
             echo "Could not find AAB artifact URL from EAS output"
