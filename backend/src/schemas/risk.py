@@ -49,3 +49,8 @@ class RiskAnalyzeResponse(BaseModel):
     utilization_rate: float = Field(..., ge=0)
     risk_factors: list[RiskFactor]
     portfolio_risk: PortfolioRiskSnapshot
+
+
+class RiskAnalyzeApiResponse(BaseModel):
+    success: bool = True
+    data: dict

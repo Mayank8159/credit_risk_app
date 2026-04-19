@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "PRISM CREDIT",
-    "slug": "credit-risk-app",
+    "slug": "prism-credit-bo7ana57rwabesyreloz5",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
@@ -33,7 +33,7 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "43912bed-0040-4a44-a50c-a43e57585a79"
+        "projectId": "0a44ab69-bb8d-4150-a8c3-0f6c69fd9c95"
       }
     }
   }

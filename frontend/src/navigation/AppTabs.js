@@ -25,8 +25,8 @@ function getTabIconName(routeName, focused) {
   if (routeName === "Cards") {
     return focused ? "card" : "card-outline";
   }
-  if (routeName === "Loan") {
-    return focused ? "calculator" : "calculator-outline";
+  if (routeName === "Loans") {
+    return focused ? "wallet" : "wallet-outline";
   }
   return focused ? "settings" : "settings-outline";
 }
@@ -205,6 +205,11 @@ export default function AppTabs({
         )}
       </Tab.Screen>
       <Tab.Screen
+        name="Loans"
+      >
+        {() => <LoanEligibilityScreen />}
+      </Tab.Screen>
+      <Tab.Screen
         name="Insights"
         options={{
           tabBarBadge: badgeCounts.insights,
@@ -224,7 +229,6 @@ export default function AppTabs({
         {() => <InsightsScreen session={session} />}
       </Tab.Screen>
       <Tab.Screen name="Cards">{() => <CardsScreen session={session} />}</Tab.Screen>
-      <Tab.Screen name="Loan">{() => <LoanEligibilityScreen />}</Tab.Screen>
       <Tab.Screen name="Settings">{() => <SettingsScreen onLogout={onLogout} />}</Tab.Screen>
     </Tab.Navigator>
   );

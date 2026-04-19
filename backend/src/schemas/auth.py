@@ -18,3 +18,13 @@ class DemoLoginResponse(BaseModel):
     message: str
     user: DemoUserProfile
     dashboard_preview: RiskAnalyzeResponse
+
+
+class DemoUsersResponse(BaseModel):
+    success: bool = True
+    data: dict
+
+
+class DemoLoginApiResponse(BaseModel):
+    success: bool = True
+    data: dict
