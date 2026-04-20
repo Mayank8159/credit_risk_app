@@ -13,9 +13,34 @@
 
 Full-stack credit risk platform with a FastAPI backend, ML-driven risk scoring, and an Expo React Native mobile app.
 
+## Presentation Flow
+
+Use the README as a talk track with this sequence:
+
+1. Problem and product overview
+2. What the platform does
+3. How the system is built
+4. How the model works
+5. How loans are scored and approved
+6. Deployment and keep-warm strategy
+7. Team and next steps
+
 -----
 
-## Latest Updates
+## 1. Problem and Product Overview
+
+PRISM-CREDIT is designed to answer a simple question fast: how risky is a borrower, and what can they do to improve their chances?
+
+It combines:
+
+- A mobile-first loan experience
+- Real-time ML-backed risk scoring
+- Explainable loan decisions
+- AI credit coaching and what-if simulation
+
+-----
+
+## 2. Latest Updates
 
 - Added AI Credit Coach chat endpoint for contextual credit guidance.
 - Added What-If simulation endpoint for counterfactual risk exploration.
@@ -25,7 +50,7 @@ Full-stack credit risk platform with a FastAPI backend, ML-driven risk scoring, 
 
 -----
 
-## Core Features
+## 3. What the Platform Does
 
 - Risk analysis API with explainable factors and portfolio snapshot.
 - Loan eligibility UX on frontend with live risk calls and local fallback estimation.
@@ -36,7 +61,7 @@ Full-stack credit risk platform with a FastAPI backend, ML-driven risk scoring, 
 
 -----
 
-## Mathematical Formulation
+## 4. How Scoring Works
 
 The backend uses deterministic equations around the model output to keep scoring transparent.
 
@@ -116,7 +141,20 @@ where $\Delta$ is derived from heuristic rules for debt-to-income, employment hi
 
 -----
 
-## Scoring and Threshold Tables
+## 5. How the Loan Decision is Made
+
+This is the story to present:
+
+1. The borrower submits their profile.
+2. The model estimates default probability.
+3. The service converts that probability into a risk score.
+4. Loan service rules adjust the score using loan-to-income context.
+5. CIBIL normalization and EMI calculations turn the score into a practical decision.
+6. The result is persisted so the user can view application history later.
+
+-----
+
+## 6. Scoring and Threshold Tables
 
 ### Risk Grade Mapping
 
@@ -163,7 +201,58 @@ where $\Delta$ is derived from heuristic rules for debt-to-income, employment hi
 
 -----
 
-## Graphs
+## 7. System Architecture at a Glance
+
+```mermaid
+graph TD
+    A[Expo React Native App] -->|/api/v1/auth/*| B[FastAPI]
+    A -->|/api/v1/risk/analyze| B
+    A -->|/api/v1/loan/*| B
+    A -->|/api/v1/credit-coach/*| B
+    B --> C[Inference Service - scikit-learn pipeline]
+    B --> D[Loan Service + Repository]
+    D --> E[SQLite loan_applications.db]
+    C --> F[Model Artifact .joblib]
+    B --> G[Counterfactual + Coach Services]
+```
+
+-----
+
+## 8. Model Training Algorithms
+
+The training pipeline combines preprocessing algorithms with a linear classifier.
+
+### 1) Missing Value Handling
+
+- Numeric features: `SimpleImputer(strategy="median")`
+- Categorical features: `SimpleImputer(strategy="most_frequent")`
+
+### 2) Numeric Feature Scaling
+
+- `StandardScaler()` is applied to numeric columns.
+
+### 3) Categorical Encoding
+
+- `OneHotEncoder(handle_unknown="ignore")` converts categorical values to binary indicator columns.
+
+### 4) Feature Assembly
+
+- `ColumnTransformer` applies numeric and categorical preprocessing in parallel.
+- `Pipeline` chains preprocessing and model training in one reproducible workflow.
+
+### 5) Classification Algorithm
+
+- `LogisticRegression(max_iter=1000, class_weight="balanced")`
+
+This produces a calibrated default probability $p_{default} \in [0,1]$, which is then converted to a risk score:
+
+$$
+risk\_score = \text{round}(100 \times p_{default})
+$$
+
+-----
+
+## 9. Visual Flows
 
 ### Risk Band Span on 0 to 100 Scale
 
@@ -206,24 +295,7 @@ graph TD
 
 -----
 
-## Architecture
-
-```mermaid
-graph TD
-    A[Expo React Native App] -->|/api/v1/auth/*| B[FastAPI]
-    A -->|/api/v1/risk/analyze| B
-    A -->|/api/v1/loan/*| B
-    A -->|/api/v1/credit-coach/*| B
-    B --> C[Inference Service - scikit-learn pipeline]
-    B --> D[Loan Service + Repository]
-    D --> E[SQLite loan_applications.db]
-    C --> F[Model Artifact .joblib]
-    B --> G[Counterfactual + Coach Services]
-```
-
------
-
-## API Summary
+## 10. API Summary
 
 Base path: `/api/v1`
 
@@ -239,7 +311,7 @@ Base path: `/api/v1`
 
 -----
 
-## Tech Stack
+## 11. Tech Stack
 
 ### Frontend
 
@@ -259,45 +331,13 @@ Base path: `/api/v1`
 - pandas
 - joblib
 
-## Model Training Algorithms
-
-The training pipeline combines preprocessing algorithms with a linear classifier.
-
-### 1) Missing Value Handling
-
-- Numeric features: `SimpleImputer(strategy="median")`
-- Categorical features: `SimpleImputer(strategy="most_frequent")`
-
-### 2) Numeric Feature Scaling
-
-- `StandardScaler()` is applied to numeric columns.
-
-### 3) Categorical Encoding
-
-- `OneHotEncoder(handle_unknown="ignore")` converts categorical values to binary indicator columns.
-
-### 4) Feature Assembly
-
-- `ColumnTransformer` applies numeric and categorical preprocessing in parallel.
-- `Pipeline` chains preprocessing and model training in one reproducible workflow.
-
-### 5) Classification Algorithm
-
-- `LogisticRegression(max_iter=1000, class_weight="balanced")`
-
-This produces a calibrated default probability $p_{default} \in [0,1]$, which is then converted to a risk score:
-
-$$
-risk\_score = \text{round}(100 \times p_{default})
-$$
-
 ### Storage
 
 - SQLite (loan applications)
 
 -----
 
-## Local Development
+## 12. Local Development
 
 ### 1. Run Backend
 
@@ -335,7 +375,7 @@ npm run start
 
 -----
 
-## Deployment Notes
+## 13. Deployment Notes
 
 - Render configuration is defined in `render.yaml`.
 - API service runs from `backend/Dockerfile`.
@@ -343,7 +383,7 @@ npm run start
 
 -----
 
-## Project Structure
+## 14. Project Structure
 
 - `backend/` - FastAPI app, schemas, services, model pipeline, tests.
 - `frontend/` - Expo app, screens, components, API services, theming.
@@ -352,7 +392,7 @@ npm run start
 
 -----
 
-## Team
+## 15. Team
 
 - Mayank Kumar Sharma
 - Pawan Agrahari
