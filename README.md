@@ -1,135 +1,130 @@
-<p align="center">
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0B0F1A,100:A3FF12&height=200&section=header&text=PRISM-CREDIT&fontSize=50&fontColor=ffffff&animation=fadeIn" />
-</p>
-<p align="center">
-<b>Glassmorphic UI • Real-time Risk Analytics • Behavioral FinTech Engine</b>
-</p>
+# PRISM-CREDIT
 
-<p align="center">
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=2000&pause=1000&color=A3FF12&center=true&vCenter=true&width=700&lines=XGBoost+Driven+Risk+Scoring;Glassmorphic+Mobile+Experience;Real-time+Portfolio+Monitoring;FastAPI+%E2%9C%95+React+Native+Expo" />
-</p
+Full-stack credit risk platform with a FastAPI backend, ML-driven risk scoring, and an Expo React Native mobile app.
 
-## 🧠 What is PRISM-CREDIT?
+## Latest Updates
 
-PRISM-CREDIT is a **High-Fidelity AI Credit Risk Management System**. It moves beyond stagnant credit bureau scores by analyzing live transactional behavior and portfolio exposure, wrapped in a premium **Glassmorphic** interface.
+- Added AI Credit Coach chat endpoint for contextual credit guidance.
+- Added What-If simulation endpoint for counterfactual risk exploration.
+- Added end-to-end loan workflow (apply, categories, and application history).
+- Added demo authentication with quick user switching support in the app.
+- Added startup model autoload/training fallback and keep-warm support for hosted deployments.
 
-### ⚡ The PRISM Edge:
+## Core Features
 
-  - **Visual Risk Gauges:** Real-time needle movement based on financial health.
-  - **Explainable AI:** Uses Feature Contribution to tell users *why* their score changed.
-  - **Deep-Entity Tracking:** Monitors counterparty risk and industry volatility.
+- Risk analysis API with explainable factors and portfolio snapshot.
+- Loan eligibility UX on frontend with live risk calls and local fallback estimation.
+- Loan application module with persisted records (SQLite in backend).
+- AI Credit Coach conversational insights and scenario simulation.
+- Demo login users for instant product walkthrough.
+- Health endpoint and CORS-configurable backend setup.
 
------
-
-## 🔥 Key Highlights
-
-  - 🧪 **Advanced ML Engine:** Leveraging XGBoost/Random Forest for high-precision default prediction.
-  - 💎 **Liquid Glass UI:** Modern React Native design with high-intensity blur and neon accents.
-  - 📊 **Dynamic Portfolio:** Live tracking of "Risk-Weighted Assets" and "Total Exposure."
-  - 🚨 **Automated Alerts:** Real-time flagging of "Critical Risk Entities" and "Income Shocks."
-  - 🔐 **Secure Backend:** FastAPI with JWT-based Auth and Pydantic validation.
-
------
-
-## 🏗️ System Architecture
+## Architecture
 
 ```mermaid
 graph TD
-    A[Mobile App - React Native] -->|POST /api/v1/risk/analyze| B[FastAPI Gateway]
-    B --> C[Auth & Validation Layer]
-    C --> D[Kaggle-Trained Preprocessor]
-    D --> E[Inference Service - XGBoost]
-    E --> F[Risk Score Output]
-    E --> G[XAI - Feature Importance]
-    F --> H[Dashboard Formatter]
-    G --> H
-    H --> A
+    A[Expo React Native App] -->|/api/v1/auth/*| B[FastAPI]
+    A -->|/api/v1/risk/analyze| B
+    A -->|/api/v1/loan/*| B
+    A -->|/api/v1/credit-coach/*| B
+    B --> C[Inference Service - scikit-learn pipeline]
+    B --> D[Loan Service + Repository]
+    D --> E[SQLite loan_applications.db]
+    C --> F[Model Artifact .joblib]
+    B --> G[Counterfactual + Coach Services]
 ```
 
------
+## API Summary
 
-## 🧠 Machine Learning Model
+Base path: `/api/v1`
 
-The engine is trained on the **Kaggle Credit Risk Dataset**, utilizing 12+ critical financial features.
+- `POST /risk/analyze` - score risk, grade, utilization, risk factors, portfolio risk.
+- `GET /auth/demo-users` - list demo users.
+- `POST /auth/login` - demo login and return profile/session payload.
+- `POST /loan/apply` - submit and persist a loan application.
+- `GET /loan/categories` - list loan category rules and rates.
+- `GET /loan/applications` - fetch application history.
+- `POST /credit-coach/chat` - assistant-style credit guidance.
+- `POST /credit-coach/what-if` - simulate profile changes and impact.
+- `GET /health` - service health and environment metadata.
 
-| Component  | Tech                |
-| ---------- | ------------------- |
-| **Algorithm** | XGBoost / Random Forest |
-| **Data Source**| Kaggle Credit Risk CSV |
-| **Framework** | scikit-learn, joblib  |
-| **Metrics** | AUC-ROC, F1-Score    |
+## Tech Stack
 
-### 🧾 Explainability Indicators (XAI):
+### Frontend
 
-  * **Loan Percent Income:** High ratio → Drastic negative impact.
-  * **Credit History Length:** Longevity → Stability boost.
-  * **Default History:** Prior defaults → Critical risk flag.
+- React Native (Expo)
+- React Navigation (bottom tabs)
+- Expo Blur + LinearGradient UI effects
 
------
+### Backend
 
-## 🛠️ Tech Stack
+- FastAPI
+- Pydantic v2
+- httpx
 
-### 📱 Frontend
+### ML/Data
 
-  * **React Native (Expo)**
-  * **Expo Blur** (Glassmorphism)
-  * **React Navigation** (Custom Floating Tab Bar)
+- scikit-learn
+- pandas
+- joblib
 
-### ⚙️ Backend
+### Storage
 
-  * **FastAPI** (Python)
-  * **SQLAlchemy** (ORM)
-  * **PostgreSQL** (Database)
+- SQLite (loan applications)
 
-### 🤖 ML & Data
+## Local Development
 
-  * **XGBoost / scikit-learn**
-  * **Pandas/Numpy** (Pre-processing)
+### 1. Run Backend
 
------
-
-## 📡 API Reference
-
-### POST `/api/v1/risk/analyze`
-
-**Request Body:**
-
-```json
-{
-  "person_age": 24,
-  "person_income": 85000,
-  "loan_amnt": 15000,
-  "loan_intent": "VENTURE",
-  "cb_person_default_on_file": "N",
-  "cb_person_cred_hist_length": 5
-}
+```bash
+cd backend
+python -m venv .venv
+# Windows PowerShell
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-**Response:**
+Backend docs are available at:
 
-```json
-{
-  "risk_score": 72,
-  "risk_grade": "Moderate-High",
-  "status": "Manual Review Required",
-  "analysis": {
-    "utilization_rate": 0.28,
-    "primary_risk_factor": "Loan to Income Ratio",
-    "xai_explanation": "Your loan amount exceeds 20% of annual income."
-  }
-}
+- `http://localhost:8000/docs`
+
+### 2. Run Frontend
+
+```bash
+cd frontend
+npm install
 ```
------
 
-## 👨‍💻 Team 7SENSITIVE
+Create `frontend/.env` and set:
 
-  * **Mayank Kumar Sharma** 
-  * **Pawan Agrahari**
-  * **Shreyan Mitra**
-  * **Rajat Kumar Chandak**
-  * **Parnatosh Mukherjee**
+```env
+EXPO_PUBLIC_API_BASE_URL=http://localhost:8000/api/v1
+```
 
------
-<p align="center">
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:A3FF12,100:0B0F1A&height=120&section=footer"/>
-</p>
+Then start:
+
+```bash
+npm run start
+```
+
+## Deployment Notes
+
+- Render configuration is defined in `render.yaml`.
+- API service runs from `backend/Dockerfile`.
+- Optional keep-warm cron pings `/health` periodically.
+
+## Project Structure
+
+- `backend/` - FastAPI app, schemas, services, model pipeline, tests.
+- `frontend/` - Expo app, screens, components, API services, theming.
+- `render.yaml` - Render web service and cron definitions.
+- `AppUI.pen` - design source.
+
+## Team
+
+- Mayank Kumar Sharma
+- Pawan Agrahari
+- Shreyan Mitra
+- Rajat Kumar Chandak
+- Parnatosh Mukherjee
