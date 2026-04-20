@@ -259,6 +259,38 @@ Base path: `/api/v1`
 - pandas
 - joblib
 
+## Model Training Algorithms
+
+The training pipeline combines preprocessing algorithms with a linear classifier.
+
+### 1) Missing Value Handling
+
+- Numeric features: `SimpleImputer(strategy="median")`
+- Categorical features: `SimpleImputer(strategy="most_frequent")`
+
+### 2) Numeric Feature Scaling
+
+- `StandardScaler()` is applied to numeric columns.
+
+### 3) Categorical Encoding
+
+- `OneHotEncoder(handle_unknown="ignore")` converts categorical values to binary indicator columns.
+
+### 4) Feature Assembly
+
+- `ColumnTransformer` applies numeric and categorical preprocessing in parallel.
+- `Pipeline` chains preprocessing and model training in one reproducible workflow.
+
+### 5) Classification Algorithm
+
+- `LogisticRegression(max_iter=1000, class_weight="balanced")`
+
+This produces a calibrated default probability $p_{default} \in [0,1]$, which is then converted to a risk score:
+
+$$
+risk\_score = \text{round}(100 \times p_{default})
+$$
+
 ### Storage
 
 - SQLite (loan applications)
