@@ -1,6 +1,19 @@
+<p align="center">
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0B0F1A,100:A3FF12&height=200&section=header&text=PRISM-CREDIT&fontSize=50&fontColor=ffffff&animation=fadeIn" />
+</p>
+<p align="center">
+<b>Glassmorphic UI • Real-time Risk Analytics • Behavioral FinTech Engine</b>
+</p>
+
+<p align="center">
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=2000&pause=1000&color=A3FF12&center=true&vCenter=true&width=700&lines=AI+Credit+Coach+%26+What-If+Simulation;Loan+Application+Workflows+%2B+Demo+Auth;Real-time+Risk+Analytics+on+FastAPI;React+Native+Expo+%E2%9C%95+ML+Inference" />
+</p>
+
 # PRISM-CREDIT
 
 Full-stack credit risk platform with a FastAPI backend, ML-driven risk scoring, and an Expo React Native mobile app.
+
+-----
 
 ## Latest Updates
 
@@ -10,6 +23,8 @@ Full-stack credit risk platform with a FastAPI backend, ML-driven risk scoring, 
 - Added demo authentication with quick user switching support in the app.
 - Added startup model autoload/training fallback and keep-warm support for hosted deployments.
 
+-----
+
 ## Core Features
 
 - Risk analysis API with explainable factors and portfolio snapshot.
@@ -18,6 +33,8 @@ Full-stack credit risk platform with a FastAPI backend, ML-driven risk scoring, 
 - AI Credit Coach conversational insights and scenario simulation.
 - Demo login users for instant product walkthrough.
 - Health endpoint and CORS-configurable backend setup.
+
+-----
 
 ## Architecture
 
@@ -34,6 +51,8 @@ graph TD
     B --> G[Counterfactual + Coach Services]
 ```
 
+-----
+
 ## API Summary
 
 Base path: `/api/v1`
@@ -47,6 +66,8 @@ Base path: `/api/v1`
 - `POST /credit-coach/chat` - assistant-style credit guidance.
 - `POST /credit-coach/what-if` - simulate profile changes and impact.
 - `GET /health` - service health and environment metadata.
+
+-----
 
 ## Tech Stack
 
@@ -71,6 +92,8 @@ Base path: `/api/v1`
 ### Storage
 
 - SQLite (loan applications)
+
+-----
 
 ## Local Development
 
@@ -108,11 +131,15 @@ Then start:
 npm run start
 ```
 
+-----
+
 ## Deployment Notes
 
 - Render configuration is defined in `render.yaml`.
 - API service runs from `backend/Dockerfile`.
 - Optional keep-warm cron pings `/health` periodically.
+
+-----
 
 ## Project Structure
 
@@ -121,6 +148,8 @@ npm run start
 - `render.yaml` - Render web service and cron definitions.
 - `AppUI.pen` - design source.
 
+-----
+
 ## Team
 
 - Mayank Kumar Sharma
@@ -128,3 +157,9 @@ npm run start
 - Shreyan Mitra
 - Rajat Kumar Chandak
 - Parnatosh Mukherjee
+
+-----
+
+<p align="center">
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:A3FF12,100:0B0F1A&height=120&section=footer"/>
+</p>
