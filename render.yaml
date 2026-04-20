@@ -34,4 +34,10 @@ services:
       - key: KEEP_WARM_URL
         value: https://prism-credit-backend-new.onrender.com/health
       - key: KEEP_WARM_TIMEOUT_SECONDS
-        value: "10"
+        value: "45"
+      - key: KEEP_WARM_RETRY_ATTEMPTS
+        value: "3"
+      - key: KEEP_WARM_RETRY_DELAY_SECONDS
+        value: "5"
+      - key: KEEP_WARM_FAIL_ON_ERROR
+        value: "false"
