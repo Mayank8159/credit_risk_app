@@ -36,6 +36,176 @@ Full-stack credit risk platform with a FastAPI backend, ML-driven risk scoring, 
 
 -----
 
+## Mathematical Formulation
+
+The backend uses deterministic equations around the model output to keep scoring transparent.
+
+### 1) Risk Analysis (`/risk/analyze`)
+
+- Default probability from the trained model:
+
+$$
+p_{default} = f(\mathbf{x})
+$$
+
+- Risk score (0 to 100):
+
+$$
+risk\_score = \text{round}(100 \times p_{default})
+$$
+
+- Utilization rate (%):
+
+$$
+utilization\_rate = \frac{loan\_amnt}{person\_income} \times 100
+$$
+
+### 2) Loan Workflow (`/loan/apply`)
+
+- Loan-to-income ratio:
+
+$$
+LTI = \frac{loan\_amount}{salary \times 12}
+$$
+
+- Income-ratio penalty used by the service:
+
+$$
+penalty(LTI)=
+\begin{cases}
+15, & LTI \ge 0.50 \\
+8, & 0.35 \le LTI < 0.50 \\
+3, & 0.20 \le LTI < 0.35 \\
+0, & LTI < 0.20
+\end{cases}
+$$
+
+- Adjusted risk:
+
+$$
+adjusted\_risk = clamp(model\_risk\_score + penalty(LTI), 0, 100)
+$$
+
+- CIBIL normalization (300 to 900 mapped to 0 to 100):
+
+$$
+normalized\_cibil = \frac{cibil - 300}{600} \times 100
+$$
+
+- Loan service credit index:
+
+$$
+credit\_score = clamp(0.6 \times adjusted\_risk + 0.4 \times normalized\_cibil, 0, 100)
+$$
+
+- Monthly EMI:
+
+$$
+EMI = P \times \frac{r(1+r)^n}{(1+r)^n - 1}, \quad r = \frac{annual\_rate}{12 \times 100}
+$$
+
+### 3) Counterfactual What-If (`/credit-coach/what-if`)
+
+The simulator computes an estimated score delta from factor changes and applies:
+
+$$
+estimated\_risk\_score = clamp(original\_risk\_score + \Delta, 0, 100)
+$$
+
+where $\Delta$ is derived from heuristic rules for debt-to-income, employment history, loan grade, and interest rate.
+
+-----
+
+## Scoring and Threshold Tables
+
+### Risk Grade Mapping
+
+| Risk Score Range | Risk Grade |
+| --- | --- |
+| 0 to 34 | Low |
+| 35 to 69 | Moderate |
+| 70 to 100 | High |
+
+### Income Ratio Penalty Table (Loan Service)
+
+| Loan-to-Income Ratio | Penalty Added to Model Risk |
+| --- | --- |
+| `LTI < 0.20` | +0 |
+| `0.20 <= LTI < 0.35` | +3 |
+| `0.35 <= LTI < 0.50` | +8 |
+| `LTI >= 0.50` | +15 |
+
+### Loan Category Configuration
+
+| Category | Base Interest Rate | Max Tenure (Months) |
+| --- | ---: | ---: |
+| HOME | 8.0% | 360 |
+| CAR | 10.0% | 84 |
+| PERSONAL | 14.0% | 60 |
+| EDUCATION | 9.0% | 120 |
+| BUSINESS | 16.0% | 180 |
+
+### Core Risk API Input Features
+
+| Feature | Type | Notes |
+| --- | --- | --- |
+| `person_age` | int | 18 to 100 |
+| `person_income` | float | annual income, > 0 |
+| `person_home_ownership` | enum | RENT/OWN/MORTGAGE/OTHER |
+| `person_emp_length` | float | years of employment |
+| `loan_intent` | enum | PERSONAL/EDUCATION/MEDICAL/VENTURE/HOMEIMPROVEMENT/DEBTCONSOLIDATION |
+| `loan_grade` | enum | A to G |
+| `loan_amnt` | float | requested amount |
+| `loan_int_rate` | float | 0 to 100 |
+| `loan_percent_income` | float | 0 to 1 |
+| `cb_person_default_on_file` | enum | Y or N |
+| `cb_person_cred_hist_length` | float | credit history length |
+
+-----
+
+## Graphs
+
+### Risk Band Span on 0 to 100 Scale
+
+```mermaid
+pie title Risk Band Span on 0-100 Score Axis
+    "Low (0-34)" : 35
+    "Moderate (35-69)" : 35
+    "High (70-100)" : 31
+```
+
+### Loan Decision Pipeline
+
+```mermaid
+graph LR
+    A[Loan Input] --> B[LTI Calculation]
+    B --> C[Model Probability]
+    C --> D[Model Risk Score]
+    B --> E[Income Ratio Penalty]
+    D --> F[Adjusted Risk]
+    E --> F
+    G[CIBIL Normalization] --> H[Composite Credit Score]
+    F --> H
+    I[Category Rate + Tenure] --> J[EMI Formula]
+    H --> K[Persist Application]
+    J --> K
+```
+
+### Credit Coach What-If Flow
+
+```mermaid
+graph TD
+    A[Current Profile + Score] --> B[Hypothetical Changes]
+    B --> C[Factor-Level Delta Calculation]
+    C --> D[Estimated New Score]
+    D --> E[New Risk Grade]
+    C --> F[Impact Level]
+    E --> G[Scenario Recommendations]
+    F --> G
+```
+
+-----
+
 ## Architecture
 
 ```mermaid
