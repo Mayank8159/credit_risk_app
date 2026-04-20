@@ -17,8 +17,21 @@ services:
       - key: CORS_ALLOW_ORIGINS
         value: "*"
       - key: ENABLE_KEEP_WARM_TIMER
-        value: "true"
+        value: "false"
       - key: KEEP_WARM_INTERVAL_SECONDS
         value: "50"
       - key: KEEP_WARM_URL
         value: https://prism-credit-backend-new.onrender.com/health
+
+  - type: cron
+    name: credit-risk-api-keep-warm
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install --no-cache-dir -r requirements.txt
+    startCommand: python scripts/keep_warm.py
+    schedule: "*/10 * * * *"
+    envVars:
+      - key: KEEP_WARM_URL
+        value: https://prism-credit-backend-new.onrender.com/health
+      - key: KEEP_WARM_TIMEOUT_SECONDS
+        value: "10"
